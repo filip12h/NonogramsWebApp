@@ -1,10 +1,14 @@
 import * as React from 'react';
 
-const Board: React.FC = () => {
+type BoardProps = {
+    width: number;
+    height: number;
+};
+
+const Board: React.FC<BoardProps> = (props) => {
     const rowGenerator = () => {
         const elements = [];
-        const rowlength = 20;
-        for (let i = 0; i < rowlength; i += 1) {
+        for (let i = 0; i < props.width; i += 1) {
             if (i % 5 === 0) {
                 elements.push(<td className="column5" key={i.toString()} />);
             } else {
@@ -16,8 +20,7 @@ const Board: React.FC = () => {
 
     const tableGenerator = () => {
         const elements = [];
-        const numofrows = 15;
-        for (let i = 0; i < numofrows; i += 1) {
+        for (let i = 0; i < props.height; i += 1) {
             if (i % 5 === 0) {
                 elements.push(
                     <tr className="row5" key={i.toString()}>
