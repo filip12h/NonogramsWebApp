@@ -1,4 +1,4 @@
-# NOnograms, report 2, 6.týždeň, Filip Husár
+# Nonograms, report 2, 6.týždeň, Filip Husár
 
 ##Plán:
     - prehodenie doterajšej práce do React
