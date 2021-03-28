@@ -1,46 +1,60 @@
-# Getting Started with Create React App
+# Nonograms, report 2, 6.týždeň, Filip Husár
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Plán:
 
-## Available Scripts
+    - prehodenie doterajšej práce do React
 
-In the project directory, you can run:
 
-### `yarn start`
+    - sfunkčnenie lúštenia
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    - v optimistickom scenári aj registračné prostredie (pôvodný harmonogram) 
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Spravená práca:
 
-### `yarn build`
+    - Prvé dva ciele sa mi podarili, krížovka sa dá lúštiť, aj keď zatiaľ chýba zadanie krížoviek a teda aj overovač vylúštenia
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    - Zatiaľ iba jednofarebné "binárne" lúštenie
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+    - Vytvoril som Tile kvôli menežovaniu jeho stavov a vytiahol som ho von z Board, aj keď to zatiaľ držím spolu v jednom tsx
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Dôvody "nedokonalosti" a.k.a nesplnenia cieľa do bodky:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    - čo sa týka dôvodov neimplementácie registrácie, tých je viac
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+    - hlavný dôvod je časový, keďže tento týždeň + začiatok ďalšieho sa mi nakopilo veľa zadaní z rôznych predmetov
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    - okrem toho  zisťujem že zatiaľ nemám jasnú predstavu o tom ako túto registráciu spraviť, viac by to bolo o googlení ako o využívaní nadobudnutých vedomostí, preto asi aj prehodnotím svoje plány a najbližšie sa upriamim na iné záležitosti a do registračného prostredia sa pustím asi až po tom keď sa tomu aj na samotnom predmete viac povenujeme
+
+
+## Vynaložené úsilie:
+
+    - 2 poldni, čistého času keď si odmyslím znovupúšťanie niektorých cvík, tak do 6 hodín.
+
+
+## Najbližší týždeň:
+
+    - cieľom na najbližší týždeň bude vložiť do aplikácie aspoň nejaké sample zadanie krížovky a aby aplikácia mohla overiť či je krížovka správne vylúštená
+    
+    - ak by som mal v tomto problémy, alternatívny cieľ by boli viacfarebné krížovky 
+
+
+## Problémy:
+    
+    - Čo sa týka prechodu do Reactu, tam ma jedine zdržali menšie zmeny v syntaxi, trochu som zmenil spôsob generovania krížovky
+   
+    - ako sa hovorí, začiatky sú najťažšie a teda aj moje prvé použitie hooks si vyžiadalo niekoľko hodín márneho googlenia (kde používali OO-prog.namiesto funkcionálneho čo sa mi teda nepáčilo) až som si opätovne pustil cviko kde som videl odpoveď hneď v úvodných minútach.
+
+
+
+
+
+
+
+
