@@ -25,11 +25,6 @@ const Tile: React.FC<TileProps> = ({ id, col5 }) => {
     );
 };
 
-type BoardProps = {
-    width: number;
-    height: number;
-};
-
 const solution = [
     [1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
     [1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
@@ -61,7 +56,7 @@ const solution = [
 const solvingProgress = [];
 
 const outerUpperNumbers = [
-    [4, 7],
+    [4, 7, 5],
     [3],
     [5],
     [1, 2],
@@ -102,7 +97,7 @@ const outerLeftNumbers = [
     [5],
     [1, 2],
     [6],
-    [4, 7],
+    [4, 7, 1],
     [3],
     [5],
     [1, 2],
@@ -121,8 +116,14 @@ const outerLeftNumbers = [
     [3],
 ];
 
-const numOfUpperRows = 2;
-const numOfLeftColumns = 2;
+/*   TODO: we need to calculate this automatically   */
+const numOfUpperRows = Math.max(...outerUpperNumbers.map((col) => col.length));
+const numOfLeftColumns = Math.max(...outerLeftNumbers.map((row) => row.length));
+
+type BoardProps = {
+    width: number;
+    height: number;
+};
 
 const Board: React.FC<BoardProps> = (props) => {
     if (solution.length === 5 && solvingProgress.length === 1) {
@@ -134,10 +135,10 @@ const Board: React.FC<BoardProps> = (props) => {
         const elements = [];
         for (let j = 0; j < numOfLeftColumns; j += 1) {
             if (outerLeftNumbers[i].length < numOfLeftColumns - j) {
-                elements.push(<td className="leftNumbers">.</td>);
+                elements.push(<td className="leftNumbers nonogramDefinition">.</td>);
             } else {
                 elements.push(
-                    <td className="leftNumbers">
+                    <td className="leftNumbers nonogramDefinition">
                         {outerLeftNumbers[i][j - numOfLeftColumns + outerLeftNumbers[i].length]}
                     </td>,
                 );
@@ -146,15 +147,50 @@ const Board: React.FC<BoardProps> = (props) => {
         return elements;
     };
 
-    const rowGenerator = () => {
+    const upperRowsGenerator = (i: number) => {
+        const elements = [];
+        if (i === 0)
+            elements.push(
+                <td
+                    colSpan={numOfUpperRows}
+                    rowSpan={numOfLeftColumns}
+                    className="nonogramDefinition"
+                />,
+            );
+
+        for (let j = 0; j < props.width; j += 1) {
+            if (outerUpperNumbers[j].length >= numOfUpperRows - i) {
+                if (j % 5 === 0) {
+                    elements.push(
+                        <td className="upperNumbers column5 nonogramDefinition">
+                            {outerUpperNumbers[j][numOfUpperRows - 1 - i]}
+                        </td>,
+                    );
+                } else {
+                    elements.push(
+                        <td className="upperNumbers nonogramDefinition">
+                            {outerUpperNumbers[j][numOfUpperRows - 1 - i]}
+                        </td>,
+                    );
+                }
+            } else if (j % 5 === 0) {
+                elements.push(<td className="upperNumbers column5 nonogramDefinition">.</td>);
+            } else {
+                elements.push(<td className="upperNumbers nonogramDefinition">.</td>);
+            }
+        }
+        return elements;
+    };
+
+    const rowGenerator = (j: number) => {
         const elements = [];
 
         /*  otherwise there was thicker line on the left end    */
         for (let i = 0; i < props.width; i += 1) {
             if (i % 5 === 0) {
-                elements.push(<Tile id={i} col5 />);
+                elements.push(<Tile id={i + j * props.width} col5 />);
             } else {
-                elements.push(<Tile id={i} col5={false} />);
+                elements.push(<Tile id={i + j * props.width} col5={false} />);
             }
         }
         return elements;
@@ -162,37 +198,22 @@ const Board: React.FC<BoardProps> = (props) => {
 
     const tableGenerator = () => {
         const elements = [];
-
-        /*   we should compute how many rows are needed   */
+        /*   we generate upper rows first   */
         for (let i = 0; i < numOfUpperRows; i += 1) {
-            elements.push(<tr />);
-            for (let j = 0; j < numOfLeftColumns; j += 1) {
-                elements.push(<td />);
-            }
-            for (let j = 0; j < props.width; j += 1) {
-                if (outerUpperNumbers[j].length >= numOfUpperRows - i) {
-                    elements.push(
-                        <td className="upperNumbers">
-                            {outerUpperNumbers[j][numOfUpperRows - 1 - i]}
-                        </td>,
-                    );
-                } else elements.push(<td className="upperNumbers">.</td>);
-            }
+            elements.push(<tr> {upperRowsGenerator(i)} </tr>);
         }
-
         /*  we generate whole table */
-
         for (let i = 0; i < props.height; i += 1) {
             if (i % 5 === 0) {
                 elements.push(
                     <tr className="row5" key={i.toString()}>
-                        {outerLeftNumbersGenerator(i)} {rowGenerator()}
+                        {outerLeftNumbersGenerator(i)} {rowGenerator(i)}
                     </tr>,
                 );
             } else {
                 elements.push(
                     <tr key={i.toString()}>
-                        {outerLeftNumbersGenerator(i)} {rowGenerator()}
+                        {outerLeftNumbersGenerator(i)} {rowGenerator(i)}
                     </tr>,
                 );
             }
