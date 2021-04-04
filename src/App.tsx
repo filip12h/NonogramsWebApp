@@ -95,26 +95,27 @@ const App: React.FC = () => {
         0,
     );
 
-    const [correct, change] = useState(numOfCorrectTiles);
+    const [correctCounter, change] = useState(numOfCorrectTiles);
 
     const checkCorrectness = (id: number, clicked: number) => {
         // we increase/decrease the number of correct cells whether the cell is in solution or not
         if (!(solution[Math.floor(id / width)][id % width] - clicked === 0)) {
-            if (correct + 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
-            change(correct + 1);
+            if (correctCounter + 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
+            change(correctCounter + 1);
         } else {
-            if (correct - 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
-            change(correct - 1);
+            if (correctCounter - 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
+            change(correctCounter - 1);
         }
         // for some reason next line alerted too late
         // if (correct === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
     };
 
     // const [correct, change] = useState(numOfCorrectTiles);
+    //             <div>{correctCounter}</div>
+
     return (
         <>
             <Top />
-            <div>{correct}</div>
             <Board
                 width={solution[0].length}
                 height={solution.length}

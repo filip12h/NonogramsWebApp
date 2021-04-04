@@ -90,7 +90,7 @@ td {
 button {
     width: 30px;
     height: 30px;
-    border: 0;
+    border: 0px;
     background-color: #efeae2;
 }
 
@@ -99,11 +99,12 @@ button:hover {
 }
 
 .clicked {
-    background-color: #000;
+    background-image: url('pics/filled.png');
+    background-size: 30px;
 }
 
 .clicked:hover {
-    background-color: #333;
+    background-image: url('pics/filledHover.png');
 }
 
 .nonogramDefinition .column5 {
