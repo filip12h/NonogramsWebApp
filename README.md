@@ -1,55 +1,53 @@
-# Nonograms, report 2, 6.týždeň, Filip Husár
+# Nonograms, report 3, 7.týždeň, Filip Husár
 
 ## Plán:
 
-    - prehodenie doterajšej práce do React
-
-
-    - sfunkčnenie lúštenia
-
-
-    - v optimistickom scenári aj registračné prostredie (pôvodný harmonogram) 
+    - kontrolór správnosti vylúštenia
+    - ak by sa vyskytol čas, tak aj viacfarebné lúštenie
 
 
 ## Spravená práca:
 
-    - Prvé dva ciele sa mi podarili, krížovka sa dá lúštiť, aj keď zatiaľ chýba zadanie krížoviek a teda aj overovač vylúštenia
-
-
-    - Zatiaľ iba jednofarebné "binárne" lúštenie
-
-
-    - Vytvoril som Tile kvôli menežovaniu jeho stavov a vytiahol som ho von z Board, aj keď to zatiaľ držím spolu v jednom tsx
+    - Tento týždeň som mal veľmi produktívny a zároveň úspešný. Objektívne sa musím pochváliť :D
+    - Okrem splnenia hlavného cieľa na tento týždeň som plnil veľa menších cieľov ktoré mi cestou prišli na um
+        - automatické vykresľovanie vonkajších čísel.
+        - použitie hooks - každá bunka vie svoj stav, avšak globálny stav o vylúštení celej krížovky potrebujeme držať v Appke
+            - po každom stlačení sa overí či táto bunka je kliknutá tak ako má byť v riešení. Ak áno, počet správne kliknutých zväčšíme, inak zmenšíme o 1.
+            - ak niekedy #buniek === #správnych, vyhlásime krížovku za správne vylúštenú
+    - okrem toho som pridal možnosť prečiarknuť bunku
+        - v prípade že si užívateľ zaznačiť ktorá bunka v riešení nebude
+        - zrejme ešte v budúcnosti trochu upravím obrázok kríža, nech ho je aj lepšie vidno
+    - dokonca som si z radosti naťukal jednu komplet krížovku nech je čo lúštiť (dokonca tématickú!) Aj keď na testovanie by sa hodilo niečo menšie.
 
 
 ### Dôvody "nedokonalosti" a.k.a nesplnenia cieľa do bodky:
 
-    - čo sa týka dôvodov neimplementácie registrácie, tých je viac
-
-
-    - hlavný dôvod je časový, keďže tento týždeň + začiatok ďalšieho sa mi nakopilo veľa zadaní z rôznych predmetov
-
-
-    - okrem toho  zisťujem že zatiaľ nemám jasnú predstavu o tom ako túto registráciu spraviť, viac by to bolo o googlení ako o využívaní nadobudnutých vedomostí, preto asi aj prehodnotím svoje plány a najbližšie sa upriamim na iné záležitosti a do registračného prostredia sa pustím asi až po tom keď sa tomu aj na samotnom predmete viac povenujeme
-
+    - Ako vravím, tento týždeň sa mi podarilo splniť všetko čo som plánoval, možno jedine tá viacfarebnosť, ale tú som plánoval ajtak iba spraviť v prípade že by som mal s overovaním správnosti problémy
+    - Okrem toho mi príde viacfarebnosť krížovky ako ľahko implementovateľný problém, takže nerobím si z toho ťažkú hlavu
 
 ## Vynaložené úsilie:
 
-    - 2 poldni, čistého času keď si odmyslím znovupúšťanie niektorých cvík, tak do 6 hodín.
+    - 3 plnotučné večery, čistého času asi niečo cez 10 hodín
 
 
 ## Najbližší týždeň:
 
-    - cieľom na najbližší týždeň bude vložiť do aplikácie aspoň nejaké sample zadanie krížovky a aby aplikácia mohla overiť či je krížovka správne vylúštená
-    
-    - ak by som mal v tomto problémy, alternatívny cieľ by boli viacfarebné krížovky 
+    - najbližší týždeň mám v pláne popracovať na registračnom prostredí
+    - v prípade že by som s tým mal problémy keďže je to niečo úplne nové ako som robil doteraz, mám v zálohe popracovať na automatickom generovaní čísel do zadania krížovky na základe riešenia
+        - tým by som mal skoro vybavený ďalší cieľ, a to prostredie na vytváranie krížovky
+    - a opäť, ak by sa vyskytol čas, alebo nečakaná chuť zmeniť druh práce, tak umožniť viacfarebné farbenie
 
 
 ## Problémy:
     
-    - Čo sa týka prechodu do Reactu, tam ma jedine zdržali menšie zmeny v syntaxi, trochu som zmenil spôsob generovania krížovky
+    - Niektoré problémy mám ešte nevyriešené
+        - ESLint mi nadáva že v 27.riadku Board.tsx hovorím o type eventu ako any. Žiaľ, skúšal som to spraviť inak, ale krajšie mi nevydalo
+        - na oznámenie o vylúštení používam alert, tiež sa to ESLintu nepáči, zatiaľ som to ale neriešil
+        - Z nejakého dôvodu mi sa mi každý 5.stĺpec zobrazuje divne. Chyba je to CSS-ková, avšak neprišiel som kde a prečo.
+            - pri stlačení to vidno lepšie - na pravej strane bunky zostáva bledý pásik
+    - ostatné problémy boli rýchlo vyriešené
+        - napr.by som spomenul ako pre mňa zaujímavo som využil reduce na spočítanie počtu núl v celej krížovke (pozn: nuly znamenajú prázdne políčka)
    
-    - ako sa hovorí, začiatky sú najťažšie a teda aj moje prvé použitie hooks si vyžiadalo niekoľko hodín márneho googlenia (kde používali OO-prog.namiesto funkcionálneho čo sa mi teda nepáčilo) až som si opätovne pustil cviko kde som videl odpoveď hneď v úvodných minútach.
 
 
 
