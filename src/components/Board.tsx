@@ -12,6 +12,7 @@ const Tile: React.FC<TileProps> = ({ id, col5, checkCorrect }) => {
 
     const clickCell = () => {
         changeCross(false);
+        // we should change const 1 to number of set Color
         changeClicked(1 - clicked);
         checkCorrect(id, clicked);
         /*
@@ -26,9 +27,11 @@ const Tile: React.FC<TileProps> = ({ id, col5, checkCorrect }) => {
     // afraid I do not know how to change that any so far...
     const toCross = (e: any) => {
         e.preventDefault();
-        if (!clicked) {
-            changeCross(!crossed);
+        if (clicked) {
+            checkCorrect(id, clicked);
         }
+        changeClicked(0);
+        changeCross(!crossed);
     };
 
     return (
@@ -69,10 +72,11 @@ const Board: React.FC<BoardProps> = ({
 }) => {
     // numberOfTiles = props.width * props.height;
 
-    /*   TODO: we need to calculate this automatically   */
+    /*   TODO: we need to calculate this to render appropriate number of columns/rows   */
     const numOfUpperRows = Math.max(...upNum.map((col) => col.length));
     const numOfLeftColumns = Math.max(...leftNum.map((row) => row.length));
 
+    // just some stupid test I'll delete later
     if (solution.length === 5 && progress.length === 1) {
         // eslint-disable-next-line
         alert('haha');
@@ -171,7 +175,7 @@ const Board: React.FC<BoardProps> = ({
     };
 
     const makeTable = () => {
-        return <table>{tableGenerator()}</table>;
+        return <table onContextMenu={(e) => e.preventDefault}>{tableGenerator()}</table>;
     };
 
     return makeTable();
