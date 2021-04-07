@@ -25,7 +25,7 @@ const Tile: React.FC<TileProps> = ({ id, col5, checkCorrect }) => {
     };
 
     // afraid I do not know how to change that any so far...
-    const toCross = (e: any) => {
+    const toCross = (e: Event) => {
         e.preventDefault();
         if (clicked) {
             checkCorrect(id, clicked);
@@ -44,7 +44,7 @@ const Tile: React.FC<TileProps> = ({ id, col5, checkCorrect }) => {
                     (clicked ? ' clicked' : '') +
                     (crossed ? ' crossed' : '')
                 }
-                onContextMenu={toCross}
+                onContextMenu={() => toCross}
             >
                 {null}
             </button>

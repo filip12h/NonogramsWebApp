@@ -5,6 +5,14 @@ h1 {
     margin: 0 0 20px 0;
 }
 
+h1 a {
+    transition: 0.3s;
+}
+
+h1 a:hover {
+    text-shadow: 1px 1px #986;
+}
+
 h2 {
     font-weight: 200;
     font-size: 30;
@@ -29,6 +37,7 @@ ul {
     text-decoration: none;
     text-align: center;
     display: block;
+    transition: 0.7s;
 }
 
 .menubar li {
@@ -37,7 +46,7 @@ ul {
 }
 
 li a:hover {
-    background-color: #dfc9a7;
+    background-color: #d6bf9c;
     opacity: 100%;
 }
 
@@ -64,10 +73,6 @@ div {
     width: 54%;
 }
 
-h1 a:hover {
-    text-shadow: 1px 1px #986;
-}
-
 footer {
     text-align: center;
     color: #888;
@@ -87,14 +92,14 @@ td {
     background-color: #efeae2;
 }
 
-button {
+table button {
     width: 30px;
     height: 30px;
     border: 0px;
     background-color: #efeae2;
 }
 
-button:hover {
+table button:hover {
     background-color: #c9b4a0;
 }
 
@@ -133,4 +138,12 @@ button:hover {
 .crossed {
     background-image: url('pics/cross.png');
     background-size: 30px;
+}
+
+aside {
+    position: fixed;
+    left: 5%;
+    width: 15%;
+    text-align: center;
+    border: solid 1px black;
 }

@@ -3,6 +3,10 @@ import './App.css';
 import Footer from './components/Footer';
 import Board from './components/Board';
 import Top from './components/Top';
+import LoginButton from './components/LoginButton';
+import LogoutButton from './components/LogoutButton';
+import Profile from './components/Profile';
+import AboutNonograms from './components/AboutNonograms';
 
 const App: React.FC = () => {
     const solution = [
@@ -100,9 +104,11 @@ const App: React.FC = () => {
     const checkCorrectness = (id: number, clicked: number) => {
         // we increase/decrease the number of correct cells whether the cell is in solution or not
         if (!(solution[Math.floor(id / width)][id % width] - clicked === 0)) {
+            // eslint-disable-next-line no-alert
             if (correctCounter + 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
             change(correctCounter + 1);
         } else {
+            // eslint-disable-next-line no-alert
             if (correctCounter - 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
             change(correctCounter - 1);
         }
@@ -112,19 +118,32 @@ const App: React.FC = () => {
 
     // const [correct, change] = useState(numOfCorrectTiles);
     //             <div>{correctCounter}</div>
+    const [activeMenu, changeActiveMenu] = useState(0);
+
+    const clickMenu = (i: number) => {
+        changeActiveMenu(i);
+    };
 
     return (
         <>
-            <Top />
-            <Board
-                width={solution[0].length}
-                height={solution.length}
-                leftNum={outerLeftNumbers}
-                upNum={outerUpperNumbers}
-                solution={solution}
-                progress={solvingProgress}
-                checkCorrect={checkCorrectness}
-            />
+            <Top changeSite={clickMenu} />
+            <aside>
+                <LoginButton />
+                <LogoutButton />
+            </aside>
+            {activeMenu === 0 && (
+                <Board
+                    width={solution[0].length}
+                    height={solution.length}
+                    leftNum={outerLeftNumbers}
+                    upNum={outerUpperNumbers}
+                    solution={solution}
+                    progress={solvingProgress}
+                    checkCorrect={checkCorrectness}
+                />
+            )}
+            {activeMenu === 1 && <AboutNonograms />}
+            {activeMenu === 3 && <Profile />}
             <Footer />
         </>
     );
