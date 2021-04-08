@@ -1,3 +1,5 @@
+# Check alpha version here: https://nononograms.web.app
+
 # Nonograms, report 3, 7.týždeň, Filip Husár
 
 ## Plán:
