@@ -364,7 +364,7 @@ const App: React.FC = () => {
 
     return (
         <>
-            <Top changeSite={clickMenu} />
+            <Top changeSite={clickMenu} active={activeMenu} />
             {activeMenu === 0 && (
                 <Board
                     width={solution[0].length}
@@ -377,7 +377,6 @@ const App: React.FC = () => {
                     makeCreationProgress={() => null}
                 />
             )}
-            {correctCounter}
             {activeMenu === 1 && <AboutNonograms />}
             {activeMenu === 2 && <BoardCreator />}
             {activeMenu === 4 && <Profile />}

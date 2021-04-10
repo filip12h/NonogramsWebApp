@@ -67,6 +67,9 @@ const BoardCreator: React.FC = () => {
                     seenColor = 0;
                 }
             }
+            if (inSolution > 0) {
+                outerLeftNumbers[i].push([inSolution, seenColor]);
+            }
         }
         return outerLeftNumbers;
     };

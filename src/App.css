@@ -44,7 +44,7 @@ h2 {
 }
 
 .menubar li {
-    padding: 20px 0 20px 0;
+    margin: 0;
     width: 25%;
     display: inline;
 }
@@ -55,7 +55,7 @@ li a:hover {
 }
 
 a.active {
-    background-color: #efd9b7;
+    background: radial-gradient(circle at top, #d8bc92, transparent);
 }
 
 body {
@@ -217,7 +217,6 @@ table button:hover {
     margin: auto;
     background-color: burlywood;
 }
-
 p {
     display: inline-block;
     margin: auto;
