@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutNonograms: React.FC = () => {
     return (
-        <>
+        <p>
             <div>
                 Nonograms, also known as Paint by Numbers, Picross, Griddlers, Pic-a-Pix, and
                 various other names, are picture logic puzzles in which cells in a grid must be
@@ -77,7 +77,7 @@ const AboutNonograms: React.FC = () => {
                 Puzzles in Israel. Magazines with nonogram puzzles are published in the US, UK,
                 Germany, Netherlands, Italy, Hungary, Finland, Ukraine, and many other countries.
             </div>
-        </>
+        </p>
     );
 };
 

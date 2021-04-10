@@ -4,7 +4,7 @@ const Footer: React.FC = () => {
     return (
         <>
             <footer>
-                copy Filip Husár
+                Filip Husár
                 <br />
                 FMFI UK
                 <br />

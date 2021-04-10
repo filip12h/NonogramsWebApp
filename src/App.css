@@ -11,6 +11,7 @@ h1 a {
 
 h1 a:hover {
     text-shadow: 1px 1px #986;
+    cursor: pointer;
 }
 
 h2 {
@@ -19,9 +20,9 @@ h2 {
     text-align: center;
     margin: 0 0 20px 0;
 }
-ul {
-    width: 60%;
-    margin: 0 20% 30px 20%;
+.menubar {
+    width: 80%;
+    margin: 0 10% 30px 10%;
     font-size: 18px;
     overflow: auto;
     padding: 0;
@@ -32,32 +33,29 @@ ul {
 }
 
 .menubar a {
-    width: 100%;
-    padding: 16px 0 16px 0;
+    height: 100%;
+    vertical-align: middle;
+    width: 25%;
+    padding: 10px 0 10px 0;
     text-decoration: none;
     text-align: center;
-    display: block;
+    display: inline-block;
     transition: 0.7s;
 }
 
 .menubar li {
-    width: 33.33%;
-    display: inline-block;
+    padding: 20px 0 20px 0;
+    width: 25%;
+    display: inline;
 }
 
 li a:hover {
     background-color: #d6bf9c;
-    opacity: 100%;
+    cursor: pointer;
 }
 
 a.active {
     background-color: #efd9b7;
-    opacity: 80%;
-}
-
-a {
-    color: black;
-    text-decoration: none;
 }
 
 body {
@@ -66,11 +64,8 @@ body {
     background-attachment: fixed;
     background-size: cover;
     font-weight: 300;
-}
-
-div {
-    padding: 10px 23% 42px 23%;
     width: 54%;
+    padding: 10px 23% 42px 23%;
 }
 
 footer {
@@ -87,46 +82,113 @@ table {
 td {
     height: 30px;
     width: 30px;
-    border: thin solid black;
-    padding: 0;
+    border: 1px solid black;
+    padding: 0px;
     background-color: #efeae2;
 }
 
 table button {
     width: 30px;
     height: 30px;
-    border: 0px;
+    border: 1px;
+    margin: 0;
     background-color: #efeae2;
 }
 
 table button:hover {
     background-color: #c9b4a0;
 }
-
-.clicked {
-    background-image: url('pics/filled.png');
+.clicked1 {
+    background-image: url('pics/black.png');
+    background-size: 30px;
+}
+.clicked2 {
+    background-image: url('pics/blue.png');
+    background-size: 30px;
+}
+.clicked3 {
+    background-image: url('pics/red.png');
+    background-size: 30px;
+}
+.clicked4 {
+    background-image: url('pics/green.png');
+    background-size: 30px;
+}
+.clicked5 {
+    background-image: url('pics/yellow.png');
+    background-size: 30px;
+}
+.clicked6 {
+    background-image: url('pics/orange.png');
+    background-size: 30px;
+}
+.clicked7 {
+    background-image: url('pics/purple.png');
+    background-size: 30px;
+}
+.clicked8 {
+    background-image: url('pics/pink.png');
+    background-size: 30px;
+}
+.clicked9 {
+    background-image: url('pics/teal.png');
+    background-size: 30px;
+}
+.clicked10 {
+    background-image: url('pics/brown.png');
     background-size: 30px;
 }
 
-.clicked:hover {
-    background-image: url('pics/filledHover.png');
+.color1 {
+    font-weight: 450;
+    color: black;
+}
+.color2 {
+    font-weight: 900;
+    color: blue;
+}
+.color3 {
+    font-weight: 900;
+    color: red;
+}
+.color4 {
+    font-weight: 900;
+    color: green;
+}
+.color5 {
+    font-weight: 900;
+    color: yellow;
+}
+.color6 {
+    font-weight: 900;
+    color: orange;
+}
+.color7 {
+    font-weight: 900;
+    color: purple;
+}
+.color8 {
+    font-weight: 900;
+    text-shadow: 1px 1px rgb(182, 57, 155);
+    color: rgb(255, 109, 223);
+}
+.color9 {
+    font-weight: 900;
+    color: teal;
+}
+.color10 {
+    font-weight: 900;
+    color: brown;
 }
 
-.nonogramDefinition .column5 {
-    border-left: 2px solid;
-}
-
-.column5 {
-    border-left: 1px solid;
-}
 /*   upper numbers   */
-.unColumn5 {
-    border-left: 2px solid;
+.column5 {
+    border-left: 2px solid black;
 }
 
 /*   every 5th rows' borders will be thicker   */
 .row5 {
-    border-top: 2px solid;
+    border-top: 2px solid black;
 }
 
 .nonogramDefinition {
@@ -140,10 +202,23 @@ table button:hover {
     background-size: 30px;
 }
 
-aside {
-    position: fixed;
-    left: 5%;
-    width: 15%;
+.center {
+    margin: auto;
     text-align: center;
-    border: solid 1px black;
+}
+
+.boxes {
+    width: 30px;
+}
+
+.colorPicker {
+    min-width: 150px;
+    width: 20%;
+    margin: auto;
+    background-color: burlywood;
+}
+
+p {
+    display: inline-block;
+    margin: auto;
 }

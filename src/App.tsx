@@ -3,12 +3,12 @@ import './App.css';
 import Footer from './components/Footer';
 import Board from './components/Board';
 import Top from './components/Top';
-import LoginButton from './components/LoginButton';
-import LogoutButton from './components/LogoutButton';
 import Profile from './components/Profile';
 import AboutNonograms from './components/AboutNonograms';
+import BoardCreator from './components/BoardCreator';
 
 const App: React.FC = () => {
+    /*
     const solution = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0],
@@ -34,63 +34,296 @@ const App: React.FC = () => {
         [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
     ];
-    const width = solution[0].length;
-    const height = solution.length;
-
-    // felt cute, might delete later
-    const solvingProgress = [[]];
 
     // we define numbers bottom-up
     const outerUpperNumbers = [
-        [2],
-        [4],
-        [1, 5],
-        [4, 3],
-        [2, 2],
-        [2, 1],
-        [2, 2],
-        [2, 2],
-        [1, 1, 1],
-        [2, 1, 1, 1],
-        [1, 5, 1],
-        [1, 3, 1],
-        [3, 4, 1],
-        [4, 1],
-        [2, 1],
-        [1, 1, 1],
-        [2, 3, 2, 4],
-        [8, 2, 7],
-        [2, 1, 7, 1],
-        [2, 1, 5, 1],
-        [3, 4, 2],
-        [6, 3],
-        [9],
-        [3, 1],
-        [3],
+        [[2, 1]],
+        [[4, 1]],
+        [
+            [1, 1],
+            [5, 1],
+        ],
+        [
+            [4, 1],
+            [3, 1],
+        ],
+        [
+            [2, 1],
+            [2, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+        ],
+        [
+            [2, 1],
+            [2, 1],
+        ],
+        [
+            [2, 1],
+            [2, 1],
+        ],
+        [
+            [1, 1],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [5, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [3, 1],
+            [1, 1],
+        ],
+        [
+            [3, 1],
+            [4, 1],
+            [1, 1],
+        ],
+        [
+            [4, 1],
+            [1, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [2, 1],
+            [3, 1],
+            [2, 1],
+            [4, 1],
+        ],
+        [
+            [8, 1],
+            [2, 1],
+            [7, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+            [7, 1],
+            [1, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+            [5, 1],
+            [1, 1],
+        ],
+        [
+            [3, 1],
+            [4, 1],
+            [2, 1],
+        ],
+        [
+            [6, 1],
+            [3, 1],
+        ],
+        [[9, 1]],
+        [
+            [3, 1],
+            [1, 1],
+        ],
+        [[3, 1]],
     ];
 
     // we define numbers left to right
     const outerLeftNumbers = [
-        [3],
-        [2, 1],
-        [3, 2],
-        [3, 1],
-        [4, 2],
-        [3, 1],
-        [4, 1],
-        [8, 5],
-        [4, 10],
-        [2, 2, 3, 1],
-        [1, 4],
-        [2, 1, 4],
-        [1, 2, 1, 1, 4],
-        [2, 1, 1, 1, 1],
-        [3, 1, 1, 2, 2],
-        [4, 4, 4],
-        [2, 2, 4, 1, 3],
-        [6, 4, 2],
-        [5, 7],
-        [4, 2],
+        [[3, 1]],
+        [
+            [2, 1],
+            [1, 1],
+        ],
+        [
+            [3, 1],
+            [2, 1],
+        ],
+        [
+            [3, 1],
+            [1, 1],
+        ],
+        [
+            [4, 1],
+            [2, 1],
+        ],
+        [
+            [3, 1],
+            [1, 1],
+        ],
+        [
+            [4, 1],
+            [1, 1],
+        ],
+        [
+            [8, 1],
+            [5, 1],
+        ],
+        [
+            [4, 1],
+            [10, 1],
+        ],
+        [
+            [2, 1],
+            [2, 1],
+            [3, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [4, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+            [4, 1],
+        ],
+        [
+            [1, 1],
+            [2, 1],
+            [1, 1],
+            [1, 1],
+            [4, 1],
+        ],
+        [
+            [2, 1],
+            [1, 1],
+            [1, 1],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [3, 1],
+            [1, 1],
+            [1, 1],
+            [2, 1],
+            [2, 1],
+        ],
+        [
+            [4, 1],
+            [4, 1],
+            [4, 1],
+        ],
+        [
+            [2, 1],
+            [2, 1],
+            [4, 1],
+            [1, 1],
+            [3, 1],
+        ],
+        [
+            [6, 1],
+            [4, 1],
+            [2, 1],
+        ],
+        [
+            [5, 1],
+            [7, 1],
+        ],
+        [
+            [4, 1],
+            [2, 1],
+        ],
+    ];
+*/
+    const solution = [
+        [1, 0, 0, 2, 2],
+        [1, 1, 0, 0, 2],
+        [0, 1, 1, 3, 3],
+        [3, 0, 1, 1, 3],
+        [2, 3, 1, 3, 2],
+    ];
+
+    const outerUpperNumbers = [
+        [
+            [1, 2],
+            [1, 3],
+            [2, 1],
+        ],
+        [
+            [1, 3],
+            [2, 1],
+        ],
+        [[3, 1]],
+        [
+            [1, 3],
+            [1, 1],
+            [1, 3],
+            [1, 2],
+        ],
+        [
+            [1, 2],
+            [2, 3],
+            [2, 2],
+        ],
+    ];
+
+    const outerLeftNumbers = [
+        [
+            [1, 1],
+            [2, 2],
+        ],
+        [
+            [2, 1],
+            [1, 2],
+        ],
+        [
+            [2, 1],
+            [2, 3],
+        ],
+        [
+            [1, 3],
+            [2, 1],
+            [1, 3],
+        ],
+        [
+            [1, 2],
+            [1, 3],
+            [1, 1],
+            [1, 3],
+            [1, 2],
+        ],
+    ];
+
+    const width = solution[0].length;
+    const height = solution.length;
+
+    // felt cute, might delete later
+    const solvingProgress = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ];
 
     // in the beginning all empty cells are considered as correct, so we just count white cells
@@ -101,17 +334,22 @@ const App: React.FC = () => {
 
     const [correctCounter, change] = useState(numOfCorrectTiles);
 
-    const checkCorrectness = (id: number, clicked: number) => {
-        // we increase/decrease the number of correct cells whether the cell is in solution or not
-        if (!(solution[Math.floor(id / width)][id % width] - clicked === 0)) {
-            // eslint-disable-next-line no-alert
-            if (correctCounter + 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
-            change(correctCounter + 1);
-        } else {
-            // eslint-disable-next-line no-alert
-            if (correctCounter - 1 === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
-            change(correctCounter - 1);
-        }
+    const checkCorrectness = (id: number, previousValue: number, clicked: number) => {
+        // we need to prevent cases when we cross out empty space correctly. That times the value is not changed
+        if (previousValue !== clicked)
+            if (solution[Math.floor(id / width)][id % width] === clicked) {
+                // we increase/decrease the number of correct cells whether the cell is in solution or not
+                // eslint-disable-next-line no-alert
+                if (correctCounter + 1 === width * height)
+                    alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
+                change(correctCounter + 1);
+            } else if (solution[Math.floor(id / width)][id % width] === previousValue) {
+                // this is case when we changed correct value of tile to incorrect
+                // eslint-disable-next-line no-alert
+                if (correctCounter - 1 === width * height)
+                    alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
+                change(correctCounter - 1);
+            }
         // for some reason next line alerted too late
         // if (correct === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
     };
@@ -127,10 +365,6 @@ const App: React.FC = () => {
     return (
         <>
             <Top changeSite={clickMenu} />
-            <aside>
-                <LoginButton />
-                <LogoutButton />
-            </aside>
             {activeMenu === 0 && (
                 <Board
                     width={solution[0].length}
@@ -140,10 +374,13 @@ const App: React.FC = () => {
                     solution={solution}
                     progress={solvingProgress}
                     checkCorrect={checkCorrectness}
+                    makeCreationProgress={() => null}
                 />
             )}
+            {correctCounter}
             {activeMenu === 1 && <AboutNonograms />}
-            {activeMenu === 3 && <Profile />}
+            {activeMenu === 2 && <BoardCreator />}
+            {activeMenu === 4 && <Profile />}
             <Footer />
         </>
     );

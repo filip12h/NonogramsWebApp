@@ -1,20 +1,41 @@
 import React, { useState } from 'react';
+import ColorPicker from './ColorPicker';
 
 type TileProps = {
     id: number;
     col5: boolean;
-    checkCorrect: (a: number, b: number) => void;
+    pickedColor: number;
+    checkCorrect: (a: number, prev: number, b: number) => void;
+    makeProgress: (a: number, b: number) => void;
 };
 
-const Tile: React.FC<TileProps> = ({ id, col5, checkCorrect }) => {
+const Tile: React.FC<TileProps> = ({ id, col5, pickedColor, checkCorrect, makeProgress }) => {
     const [clicked, changeClicked] = useState(0);
     const [crossed, changeCross] = useState(false);
 
+    // afraid I do not know how to change that any so far...
+    const toCross = (e: Event) => {
+        e.preventDefault();
+        if (clicked) {
+            checkCorrect(id, clicked, 0);
+            makeProgress(id, 0);
+        }
+        changeClicked(0);
+        changeCross(!crossed);
+    };
+
     const clickCell = () => {
-        changeCross(false);
+        if (pickedColor === 0 && !crossed) {
+            changeCross(true);
+        } else {
+            changeCross(false);
+        }
         // we should change const 1 to number of set Color
-        changeClicked(1 - clicked);
-        checkCorrect(id, clicked);
+        const newValue = clicked === pickedColor ? 0 : pickedColor;
+
+        changeClicked(newValue);
+        checkCorrect(id, clicked, newValue);
+        makeProgress(id, newValue);
         /*
         if (clicked === inSolution) {
             change(correct + 1);
@@ -24,27 +45,13 @@ const Tile: React.FC<TileProps> = ({ id, col5, checkCorrect }) => {
         */
     };
 
-    // afraid I do not know how to change that any so far...
-    const toCross = (e: Event) => {
-        e.preventDefault();
-        if (clicked) {
-            checkCorrect(id, clicked);
-        }
-        changeClicked(0);
-        changeCross(!crossed);
-    };
-
     return (
-        <td key={id.toString()}>
+        <td className={col5 ? 'column5' : ''} key={id.toString()}>
             <button
                 type="button"
                 onClick={clickCell}
-                className={
-                    (col5 ? 'column5' : '') +
-                    (clicked ? ' clicked' : '') +
-                    (crossed ? ' crossed' : '')
-                }
-                onContextMenu={() => toCross}
+                className={`clicked${clicked}${crossed ? ' crossed' : ''}`}
+                onContextMenu={(e: any) => toCross(e)}
             >
                 {null}
             </button>
@@ -57,9 +64,10 @@ type BoardProps = {
     height: number;
     solution: number[][];
     progress: number[][];
-    upNum: number[][];
-    leftNum: number[][];
-    checkCorrect: (a: number, b: number) => void;
+    upNum: number[][][];
+    leftNum: number[][][];
+    checkCorrect: (a: number, prev: number, b: number) => void;
+    makeCreationProgress: (a: number, b: number) => void;
 };
 const Board: React.FC<BoardProps> = ({
     width,
@@ -69,7 +77,24 @@ const Board: React.FC<BoardProps> = ({
     upNum,
     leftNum,
     checkCorrect,
+    makeCreationProgress,
 }) => {
+    const [currentProgress, makeProgress] = useState(progress);
+    const [selectedColor, changeColor] = useState(1);
+
+    const pickColor = (i: number) => {
+        changeColor(i);
+    };
+
+    /*   TODO nieco strasne tunak...   */
+
+    const clickOnCell = (id: number, clicked: number) => {
+        const newProgress: number[][] = currentProgress;
+        // newProgress[Math.floor(id / width)][id % width] = clicked;
+        makeProgress(newProgress);
+        makeCreationProgress(id, clicked);
+    };
+
     // numberOfTiles = props.width * props.height;
 
     /*   TODO: we need to calculate this to render appropriate number of columns/rows   */
@@ -89,8 +114,12 @@ const Board: React.FC<BoardProps> = ({
                 elements.push(<td className="leftNumbers nonogramDefinition">.</td>);
             } else {
                 elements.push(
-                    <td className="leftNumbers nonogramDefinition">
-                        {leftNum[i][j - numOfLeftColumns + leftNum[i].length]}
+                    <td
+                        className={`leftNumbers nonogramDefinition color${
+                            leftNum[i][j - numOfLeftColumns + leftNum[i].length][1]
+                        }`}
+                    >
+                        {leftNum[i][j - numOfLeftColumns + leftNum[i].length][0]}
                     </td>,
                 );
             }
@@ -106,28 +135,33 @@ const Board: React.FC<BoardProps> = ({
                     colSpan={numOfLeftColumns}
                     rowSpan={numOfUpperRows}
                     className="nonogramDefinition"
-                >
-                    Nonogram Name
-                </td>,
+                />,
             );
-
         for (let j = 0; j < width; j += 1) {
             if (upNum[j].length >= numOfUpperRows - i) {
                 if (j % 5 === 0) {
                     elements.push(
-                        <td className="upperNumbers unColumn5 nonogramDefinition">
-                            {upNum[j][numOfUpperRows - 1 - i]}
+                        <td
+                            className={`upperNumbers column5 nonogramDefinition color${
+                                upNum[j][numOfUpperRows - 1 - i][1]
+                            }`}
+                        >
+                            {upNum[j][numOfUpperRows - 1 - i][0]}
                         </td>,
                     );
                 } else {
                     elements.push(
-                        <td className="upperNumbers nonogramDefinition">
-                            {upNum[j][numOfUpperRows - 1 - i]}
+                        <td
+                            className={`upperNumbers nonogramDefinition color${
+                                upNum[j][numOfUpperRows - 1 - i][1]
+                            }`}
+                        >
+                            {upNum[j][numOfUpperRows - 1 - i][0]}
                         </td>,
                     );
                 }
             } else if (j % 5 === 0) {
-                elements.push(<td className="upperNumbers unColumn5 nonogramDefinition">.</td>);
+                elements.push(<td className="upperNumbers column5 nonogramDefinition">.</td>);
             } else {
                 elements.push(<td className="upperNumbers nonogramDefinition">.</td>);
             }
@@ -138,12 +172,27 @@ const Board: React.FC<BoardProps> = ({
     const rowGenerator = (j: number) => {
         const elements = [];
 
-        /*  otherwise there was thicker line on the left end    */
         for (let i = 0; i < width; i += 1) {
             if (i % 5 === 0) {
-                elements.push(<Tile id={i + j * width} col5 checkCorrect={checkCorrect} />);
+                elements.push(
+                    <Tile
+                        id={i + j * width}
+                        col5
+                        pickedColor={selectedColor}
+                        checkCorrect={checkCorrect}
+                        makeProgress={clickOnCell}
+                    />,
+                );
             } else {
-                elements.push(<Tile id={i + j * width} col5={false} checkCorrect={checkCorrect} />);
+                elements.push(
+                    <Tile
+                        id={i + j * width}
+                        col5={false}
+                        pickedColor={selectedColor}
+                        checkCorrect={checkCorrect}
+                        makeProgress={clickOnCell}
+                    />,
+                );
             }
         }
         return elements;
@@ -175,7 +224,12 @@ const Board: React.FC<BoardProps> = ({
     };
 
     const makeTable = () => {
-        return <table onContextMenu={(e) => e.preventDefault}>{tableGenerator()}</table>;
+        return (
+            <>
+                <ColorPicker onChange={pickColor} />
+                <table onContextMenu={(e) => e.preventDefault}>{tableGenerator()}</table>
+            </>
+        );
     };
 
     return makeTable();
