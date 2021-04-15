@@ -31,6 +31,7 @@ const BoardCreator: React.FC = () => {
     const changeWidthValue = (val: string) => {
         // eslint-disable-next-line radix
         changeWidthInput(Math.min(Math.abs(parseInt(val)), 100) || 0);
+        clickComputeHandler();
         resizeTable(true);
         generate(false);
     };
@@ -38,6 +39,7 @@ const BoardCreator: React.FC = () => {
     const changeHeightValue = (val: string) => {
         // eslint-disable-next-line radix
         changeHeightInput(Math.min(Math.abs(parseInt(val)), 100) || 0);
+        clickComputeHandler();
         resizeTable(true);
         generate(false);
     };
@@ -109,11 +111,13 @@ const BoardCreator: React.FC = () => {
     const generateTable = () => {
         changeWidth(widthInput);
         changeHeight(heightInput);
-        const progressInit: number[][] = progress || [[]];
+        const progressInit: number[][] = [[]];
         for (let i = 0; i < heightInput; i += 1) {
             progressInit.push([]);
             for (let j = 0; j < widthInput; j += 1) {
-                progressInit[i].push(0);
+                progressInit[i].push(
+                    progress.length > i && progress[0].length > j ? progress[i][j] : 0,
+                );
             }
         }
         resizeTable(false);
