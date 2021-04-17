@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import Board from './Board';
 
-const BoardCreator: React.FC = () => {
+type BoardCreatorProps = {
+    uploadNonogram: (width: number, height: number, solution: string) => void;
+};
+
+const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
     const [tableWidth, changeWidth] = useState(0);
     const [tableHeight, changeHeight] = useState(0);
     const [isGenerated, generate] = useState(false);
@@ -127,7 +131,7 @@ const BoardCreator: React.FC = () => {
 
     const makeTable = () => {
         return (
-            <>
+            <div className="center">
                 <label htmlFor="width">
                     width
                     <input
@@ -152,7 +156,6 @@ const BoardCreator: React.FC = () => {
 
                 {(!isGenerated || generatedTableIsResized) && (
                     <input
-                        className="center"
                         type="submit"
                         name="generateTable"
                         value="Generate Table"
@@ -181,7 +184,17 @@ const BoardCreator: React.FC = () => {
                         makeCreationProgress={clickOnCell}
                     />
                 )}
-            </>
+                {isComputed && (
+                    <input
+                        type="submit"
+                        name="generateTable"
+                        value="Upload Nonogram"
+                        onClick={() =>
+                            uploadNonogram(tableWidth, tableHeight, progress.flat().join(''))
+                        }
+                    />
+                )}
+            </div>
         );
     };
 

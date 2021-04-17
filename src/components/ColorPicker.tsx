@@ -7,7 +7,6 @@ import red from '../pics/red.png';
 import green from '../pics/green.png';
 import yellow from '../pics/yellow.png';
 import orange from '../pics/orange.png';
-import purple from '../pics/purple.png';
 import pink from '../pics/pink.png';
 import brown from '../pics/brown.png';
 import teal from '../pics/teal.png';
@@ -80,8 +79,8 @@ const options = [
         value: 7,
         label: (
             <p>
-                <img src={purple} alt="purple" />
-                Purple
+                <img src={brown} alt="brown" />
+                Brown
             </p>
         ),
     },
@@ -100,15 +99,6 @@ const options = [
             <p>
                 <img src={teal} alt="teal" />
                 Teal
-            </p>
-        ),
-    },
-    {
-        value: 10,
-        label: (
-            <p>
-                <img src={brown} alt="brown" />
-                Brown
             </p>
         ),
     },

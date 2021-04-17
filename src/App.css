@@ -221,3 +221,13 @@ p {
     display: inline-block;
     margin: auto;
 }
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.profile img {
+    width: 80px;
+}
