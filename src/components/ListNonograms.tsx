@@ -2,30 +2,30 @@ import React from 'react';
 
 type ListNonogramsProps = {
     nonogramList: any[];
-    showBoard: (id: number) => void;
+    showBoard: (id: string) => void;
 };
 
 const ListNonograms: React.FC<ListNonogramsProps> = ({ showBoard, nonogramList }) => {
     /* eslint-disable */
     return (
-        <ul>
+        <div className="nonogramList">
             {nonogramList.map((row) => {
                 return (
+                    // IDcko neskor zmazem
                     // eslint-disable-next-line react/jsx-key
-                    <li>
+                    <div>
                         <a
                             role="link"
                             tabIndex={0}
-                            onClick={() => showBoard(row.nonogram_id)}
-                            onKeyDown={() => showBoard(row.nonogram_id)}
+                            onClick={() => showBoard(row.id)}
+                            onKeyDown={() => showBoard(row.id)}
                         >
-                            Id: {row.nonogram_id} | Author: {row.author_id} | {row.width}x
-                            {row.height}
+                            Author: {row.author_id || '?'} | {row.width}x{row.height}
                         </a>
-                    </li>
+                    </div>
                 );
             })}
-        </ul>
+        </div>
     );
 };
 

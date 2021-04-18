@@ -79,7 +79,9 @@ const Board: React.FC<BoardProps> = ({
     checkCorrect,
     makeCreationProgress,
 }) => {
-    const [currentProgress, makeProgress] = useState(progress);
+    const [currentProgress, makeProgress] = useState(
+        new Array(height).fill(new Array(width).fill(0)),
+    );
     const [selectedColor, changeColor] = useState(1);
 
     const pickColor = (i: number) => {

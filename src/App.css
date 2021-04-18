@@ -58,6 +58,34 @@ a.active {
     background: radial-gradient(circle at top, #d8bc92, transparent);
 }
 
+.nonogramList a:hover {
+    background-color: #d6bf9c;
+    cursor: pointer;
+}
+
+.nonogramList a {
+    padding: 20px 0;
+    vertical-align: middle;
+    width: 100%;
+    text-decoration: none;
+    transition: 0.7s;
+    display: inline-block;
+}
+.nonogramList div {
+    margin: 0;
+    width: 25%;
+    float: left;
+    text-align: center;
+    outline: 1px rgb(117, 117, 117) dotted;
+}
+
+.nonogramList {
+    margin-bottom: 50px;
+    overflow: auto;
+    border: 3px black double;
+    border-radius: 10px;
+}
+
 body {
     background-image: url('pics/background.jpg');
     background-repeat: no-repeat;
@@ -169,16 +197,11 @@ table button:hover {
 }
 .color8 {
     font-weight: 900;
-    text-shadow: 1px 1px rgb(182, 57, 155);
-    color: rgb(255, 109, 223);
+    color: grey;
 }
 .color9 {
     font-weight: 900;
     color: teal;
-}
-.color10 {
-    font-weight: 900;
-    color: brown;
 }
 
 /*   upper numbers   */
@@ -230,4 +253,8 @@ p {
 
 .profile img {
     width: 80px;
+}
+
+#activeAnnouncement {
+    margin: 20px 0;
 }

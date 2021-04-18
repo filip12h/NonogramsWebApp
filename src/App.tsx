@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import Footer from './components/Footer';
 import Board from './components/Board';
@@ -9,6 +8,7 @@ import Profile from './components/Profile';
 import AboutNonograms from './components/AboutNonograms';
 import BoardCreator from './components/BoardCreator';
 import ListNonograms from './components/ListNonograms';
+import firebase from './util/firebase';
 
 const App: React.FC = () => {
     /*
@@ -247,9 +247,16 @@ const App: React.FC = () => {
     const [nonogramList, setNonogramList] = useState<any[]>([]);
 
     useEffect(() => {
-        Axios.get('http://localhost:3001/showNonograms').then((response) => {
-            console.log(response.data);
-            setNonogramList(response.data);
+        const nonogramRef = firebase.database().ref('Nonogram');
+        nonogramRef.on('value', (snapshot) => {
+            const nonograms = snapshot.val();
+            const newNonogramList: any[] = [];
+            /* eslint-disable */
+            for (const id in nonograms) {
+                newNonogramList.push({ id, ...nonograms[id] });
+            }
+            /* eslint-enable */
+            setNonogramList(newNonogramList);
         });
     }, []);
 
@@ -332,89 +339,54 @@ const App: React.FC = () => {
     };
 
     const [activeSolution, changeBoard] = useState([
-        [1, 0, 0, 2, 2],
-        [1, 1, 0, 0, 2],
-        [0, 1, 1, 3, 3],
-        [3, 0, 1, 1, 3],
-        [2, 3, 1, 3, 2],
+        [3, 0, 0, 0, 1],
+        [3, 1, 0, 0, 1],
+        [1, 0, 1, 0, 1],
+        [1, 0, 0, 1, 2],
+        [1, 0, 0, 0, 2],
     ]);
 
     const [activeOuterUpperNumbers, changeUpper] = useState([
         [
-            [1, 2],
-            [1, 3],
-            [2, 1],
-        ],
-        [
-            [1, 3],
-            [2, 1],
-        ],
-        [[3, 1]],
-        [
-            [1, 3],
-            [1, 1],
-            [1, 3],
-            [1, 2],
-        ],
-        [
-            [1, 2],
+            [3, 1],
             [2, 3],
+        ],
+        [[1, 1]],
+        [[1, 1]],
+        [[1, 1]],
+        [
             [2, 2],
+            [3, 1],
         ],
     ]);
 
     const [activeOuterLeftNumbers, changeLeft] = useState([
         [
+            [1, 3],
             [1, 1],
-            [2, 2],
         ],
         [
-            [2, 1],
+            [1, 3],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [1, 1],
             [1, 2],
         ],
         [
-            [2, 1],
-            [2, 3],
-        ],
-        [
-            [1, 3],
-            [2, 1],
-            [1, 3],
-        ],
-        [
-            [1, 2],
-            [1, 3],
             [1, 1],
-            [1, 3],
             [1, 2],
         ],
     ]);
 
-    // felt cute, might delete later
-    const solvingProgress = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ];
-
-    const [correctCounter, change] = useState(0);
+    const [correctCounter, change] = useState(12);
 
     const checkCorrectness = (id: number, previousValue: number, clicked: number) => {
         // we need to prevent cases when we cross out empty space correctly. That times the value is not changed
@@ -446,22 +418,25 @@ const App: React.FC = () => {
         changeActiveMenu(i);
     };
 
-    const { user } = useAuth0();
+    const { user, isAuthenticated } = useAuth0();
 
     const uploadNonogram = (w: number, h: number, s: string) => {
-        Axios.post('http://localhost:3001/uploadNonogram', {
-            author_id: user,
+        const nonogramRef = firebase.database().ref('Nonogram');
+        const nonogram = {
             width: w,
             height: h,
             solution: s,
-        });
-        alert('successful upload');
+        };
+        nonogramRef.push(nonogram);
+        setNonogramList([...nonogramList, { width: w, height: h, solution: s }]);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const showBoard = (id: number) => {
+    const showBoard = (id: string) => {
         // const index = nonogramList.map((row) => row[0]).indexOf(id);
-        const nonogram = nonogramList[id]; // TODO: toto musim zmenit lebo id nezodpoveda riadku
+        console.log(id);
+        const nonogram = nonogramList.find((x) => x.id === id); // TODO: toto musim zmenit lebo id nezodpoveda riadku
+        console.log(nonogram);
         const nonogramMatrix = stringToSolution(nonogram.solution, nonogram.width, nonogram.height);
         changeWidth(nonogram.width);
         changeHeight(nonogram.height);
@@ -469,7 +444,7 @@ const App: React.FC = () => {
         changeUpper(outerUpperNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         changeLeft(outerLeftNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         change(
-            activeSolution.reduce((a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0), 0),
+            nonogramMatrix.reduce((a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0), 0),
         );
         changeActiveMenu(0);
     };
@@ -477,6 +452,7 @@ const App: React.FC = () => {
     return (
         <>
             <Top changeSite={clickMenu} active={activeMenu} />
+            <div id="activeAnnouncement">Active: {isAuthenticated ? user.id : 'anonym'}</div>
             {activeMenu === 0 && (
                 <>
                     <Board
@@ -485,14 +461,17 @@ const App: React.FC = () => {
                         leftNum={activeOuterLeftNumbers}
                         upNum={activeOuterUpperNumbers}
                         solution={activeSolution}
-                        progress={solvingProgress}
+                        progress={[]}
                         checkCorrect={checkCorrectness}
                         makeCreationProgress={() => null}
                     />
-                    <div>{correctCounter}</div>
                 </>
             )}
-            {activeMenu === 1 && <AboutNonograms />}
+            {activeMenu === 1 && (
+                <>
+                    <AboutNonograms />
+                </>
+            )}
             {activeMenu === 2 && <BoardCreator uploadNonogram={uploadNonogram} />}
             {activeMenu === 3 && (
                 <>
