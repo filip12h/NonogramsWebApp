@@ -1,34 +1,8 @@
 # Check alpha version here: https://nononograms.web.app
 
-# Nonograms, report 4, 8.týždeň, Filip Husár
+# Nonograms, report 5, doterajšia práca, Filip Husár
 
 ## Plán:
-
-    - spravená registrácia
-    - doplnkové
-        - viacfarebné krížovky
-        - prostredie na vytváranie krížoviek
-
-## Spravená práca:
-
-    - opäť sa mi darilo, dostal som sa do dobrej programovacej fazóny, aj som mal chuť sa tomu povenovať viac času
-    - na celú obsluhu registrácie užívateľa som použil autho0-react
-    - okrem toho som nahodil appku na verejnú doménu: nononograms.web.app
-        - s tým súvisí aj zmena názvu appky pridaním slabiky "no" do názvu. Dôvod: na nič originálnejšie som neprišiel.
-    - spravil som aj prostredie na vývoj krížoviek ako aj viacfarebné maľovanie
-
-### Dôvody "nedokonalosti" a.k.a nesplnenia cieľa do bodky:
-
-    - idem zatiaľ podľa plánu, jediné čo ma trápi sú nedokonalosti v CSS
-        - pri zmenšení rozlíšenia stránky sa občas objavujú malinké medzery medzi vo vyfarbených políčkach - t.j.obrázok nepokrýva celú plochu políčka
-        - okrem toho som trochu smutný že na mobile tá stránka vyzerá hrozne, ale nakoľko sa toto v požiadavkách projektu nespomína, obrazovkám vo veľkosti mobilov sa povenujem asi až posledný týždeň, pokiaľ už nič iné nebude na práci
-
-## Vynaložené úsilie:
-    - 14-15 hodín
-        - prakticky každý deň, možno až na jeden-dva, som mal chuť na stránke popracovať
-
-
-## Najbližší týždeň:
 
     - konečne zapracovať SQL, bude to pre mňa premiéra tak neviem odhadnúť ako mi to pôjde, ale minimálne chcem pre každého užívateľa mať v databáze rozpracovaný stav tej jednej krížovky na hlavnej stránke
         - pridať na stránku viacej krížoviek a nech si užívateľ môže vyberať ktorú lúštiť
@@ -39,24 +13,42 @@
         - umožniť adminovi jednotlivé vyrobené krížovky zverejniť do verejnej databázy
             - pri krížovke by bolo meno autora, dátum a iné.
 
+## Spravená práca:
+
+    - spojazdnil som si MySQL lokálne, avšak s nahodením na hosting som mal problémy, venoval som tomu pomerne dlhý čas, tak som nakoniec zmenil plán a databázu robím vo Firebase kde mám aj nahodený projekt
+            - aj je to oveľa logickejšie, neviem prečo som si to nedal už do pôvodného plánu takto, asi preto že v tom robím prvýkrát a ešte som nevedel čo všetko to ponúka a ako sa v tom bude robiť
+    - upravil som registráciu, nerobím ju cez Providera Auth0 ale pomocou autentifikácie priamo na firebase. Vďaka tomu bude narábanie s údajmi jednoduchšie
+    - vytvorená databáza užívateľov ako aj krížoviek
+    - zobraozvanie všetkých vytvorených krížoviek v kolekcii a vybratie krížovky ktorú bude možné vylúštiť
+    - užívateľom som umožnil meniť si prezývku
+
+### Dôvody "nedokonalosti" a.k.a nesplnenia cieľa do bodky:
+
+    - nepodarilo sa mi ukladať progres vylúštenia - t.j.keď sa užívateľ odhlási počas lúštenia a opäť prihlási, tak môže pokračovať v práci
+        - toto je čisto časový dôvod. Veľa času som strávil jednak s tým ako spojazdniť MySQL a potom tiež ako to nahodiť funkčné na hosting. Žiaľ, všetká táto snaha sa ukázala neskôr márna.
+        - teraz keď už mám rozbehanú databázu tak by to malo byť v pohode, kde u každého užívateľa budem mať uložený zoznam vylúštených, podobne ako aj zoznam progresu - dvojica (krížovka, progres)
+    - taktiež nie je spravené odtajnenie krížovky s obrázkom - tiež za tým hľadajme časové dôvody, no pri tomto som zmenil prioritu. Teraz sú dôležitejšie veci na práci
+
+## Vynaložené úsilie:
+    - opäť okolo 14-15 hodín
+        - žiaľ, veľká časť z toho, cca 6 hodín, bolo venovaných MySQL. Ak by bolo treba, dám k dispozícii kód
+    - celkovo okolo 55 hodín
+
+
+## Najbližšie obdobie:
+    - pridať do databázy užívateľov progres spravených krížoviek
+    - filtrovanie krížoviek
+    - umožnenie iba tých farieb ktoré sú použité v krížovke
+    - sekundárna priorita ak by vyšiel čas: nejaká základná interakcia užívateľov - vyhľadávanie kamošov možno
+    
+
 
 ## Problémy:
-    
-    - Čo sa týka vytýčených cieľov, boli to iba klasické drobné problémy vyriešené do 5 minút
-    - vyskytol sa jeden nečakaný problém čo sa overovania správnosti krížovky týka. Keď som skúšal lúštiť cez mobil a mal som slabšie pripojenie a niektoré moje kliknutia boli zaznamenané viackrát, počítadlo progresu sa posunulo o +-1 a oznámenie o vylúštení krížovky prišlo v nesprávnom čase
-        - rozmýšľam ako daný problém vyriešiť a či vôbec ho riešiť
-            - keďže predpokladám že nikto nebude chcieť riešiť krížovku cez mobil a u počítačov predpokladám stabilné pripojenie
-            - taktiež nechcem ísť do druhého extrému a po každom kliknutí prechádzať celou krížovkou a kontrolovať či je každé políčko správne.
-            - preto rozmýšľam nad kompromisom
-                - stále mať počítadlo ktoré sa bude aktualizovať a v prípade že nadobudne požadovanú hodnotu, tak prebehne ešte jedna kontrola komplet krížovky - v prípade že počítadlo bolo skomprimované, tak sa aktualizuje
-                    - a v prípade že užívateľ krížovku vylúštil, no kvôli zlému počítadlu nevyskočil oznam o vylúštení, pridať na stránku tlačidlo ktorým vie užívateľ šťuchnúť appku aby skontrolovala správnosť krížovky
-            - no je to z môjho pohľadu neelegantné riešenie, takže možno ešte počkám kým ma k nemu donúti viacnásobny výskyt tohto problému
-                    - tiež si viem predstaviť podobné riešenie bez tlačidla. Vždy pri ukončení krížovky sa stav rozpracovanej krížovky uloží - a v prípade že je vylúštená, systém to bude mať zapamätané.
-   
-
-
-
-
+    - občas sa stane že mi pribudne viacero záznamov do databázy užívateľov pri registrácii/prvom prihlásení
+        - v zásade z toho zatiaľ nevyplynuli ďalšie problémy keďže vždy je zapamätaná referencia na ten posledný záznam, avšak dobudúcna toto potrebujem fixnúť
+    - niektoré farby sú zle rozoznateľné, hlavne pri večerných filtlroch obrazovky.
+        - chcem vymyslieť ako tento problém odstrániť
+            - buď dať label na každé jedno číslo akej je farby, alebo to vyriešiť tak, že po stlačení čísla sa vyberie daná farba.
 
 
 
