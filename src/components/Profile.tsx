@@ -94,6 +94,11 @@ const Profile: React.FC<ProfileProps> = ({
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyUp={(e) => {
+                            if (e.key === 'Enter') {
+                                document.getElementById('login')?.click();
+                            }
+                        }}
                     />
                 </label>
                 <p className="errorMsg">{passwordError}</p>
@@ -101,7 +106,7 @@ const Profile: React.FC<ProfileProps> = ({
                 <div className="btnContainer">
                     {hasAccount ? (
                         <>
-                            <button type="submit" onClick={handleLogin}>
+                            <button id="login" type="submit" onClick={handleLogin}>
                                 Log in
                             </button>
                             <div className="changeOption">
@@ -117,7 +122,7 @@ const Profile: React.FC<ProfileProps> = ({
                         </>
                     ) : (
                         <>
-                            <button type="submit" onClick={handleSignup}>
+                            <button id="signup" type="submit" onClick={handleSignup}>
                                 Sign up
                             </button>
                             <div className="changeOption">

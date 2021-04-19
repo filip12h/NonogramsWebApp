@@ -299,7 +299,7 @@ const App: React.FC = (): JSX.Element => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [hasAccount, setHasAccount] = useState(false);
+    const [hasAccount, setHasAccount] = useState(true);
 
     const clearInputs = () => {
         setEmail('');
@@ -571,55 +571,64 @@ const App: React.FC = (): JSX.Element => {
     };
 
     return (
-        <>
-            <Top changeSite={clickMenu} active={activeMenu} />
-            <div id="activeAnnouncement">Active: {nickname || 'anonym'}</div>
-            {activeMenu === 0 && (
-                <>
-                    <Board
-                        width={activeSolution[0].length}
-                        height={activeSolution.length}
-                        leftNum={activeOuterLeftNumbers}
-                        upNum={activeOuterUpperNumbers}
-                        solution={activeSolution}
-                        progress={[]}
-                        checkCorrect={checkCorrectness}
-                        makeCreationProgress={() => null}
-                    />
-                </>
-            )}
-            {activeMenu === 1 && (
-                <>
-                    <AboutNonograms />
-                </>
-            )}
-            {activeMenu === 2 && <BoardCreator uploadNonogram={uploadNonogram} />}
-            {activeMenu === 3 && (
-                <>
-                    <ListNonograms showBoard={showBoard} nonogramList={nonogramList} />
-                </>
-            )}
-            {activeMenu === 4 && (
-                <Profile
-                    email={email}
-                    password={password}
-                    setEmail={setEmail}
-                    setPassword={setPassword}
-                    handleLogin={handleLogin}
-                    handleSignup={handleSignup}
-                    hasAccount={hasAccount}
-                    setHasAccount={setHasAccount}
-                    emailError={emailError}
-                    passwordError={passwordError}
-                    handleLogout={handleLogout}
-                    isLoggedIn={userAuthId.length > 0}
-                    nickname={nickname}
-                    setNickname={setNickname}
-                    changeNickname={changeNickname}
-                />
-            )}
+        <div className="fadeIn page-container">
+            <div className="content-wrap">
+                <Top changeSite={clickMenu} active={activeMenu} />
+                <div id="activeAnnouncement">Active: {nickname || 'anonym'}</div>
+
+                {activeMenu === 0 && (
+                    <div className="showSite">
+                        <Board
+                            width={activeSolution[0].length}
+                            height={activeSolution.length}
+                            leftNum={activeOuterLeftNumbers}
+                            upNum={activeOuterUpperNumbers}
+                            solution={activeSolution}
+                            progress={[]}
+                            checkCorrect={checkCorrectness}
+                            makeCreationProgress={() => null}
+                        />
+                    </div>
+                )}
+                {activeMenu === 1 && (
+                    <div className="showSite">
+                        <AboutNonograms />
+                    </div>
+                )}
+                {activeMenu === 2 && (
+                    <div className="showSite">
+                        <BoardCreator uploadNonogram={uploadNonogram} />
+                    </div>
+                )}
+                {activeMenu === 3 && (
+                    <div className="showSite">
+                        <ListNonograms showBoard={showBoard} nonogramList={nonogramList} />
+                    </div>
+                )}
+                {activeMenu === 4 && (
+                    <div className="showSite">
+                        <Profile
+                            email={email}
+                            password={password}
+                            setEmail={setEmail}
+                            setPassword={setPassword}
+                            handleLogin={handleLogin}
+                            handleSignup={handleSignup}
+                            hasAccount={hasAccount}
+                            setHasAccount={setHasAccount}
+                            emailError={emailError}
+                            passwordError={passwordError}
+                            handleLogout={handleLogout}
+                            isLoggedIn={userAuthId.length > 0}
+                            nickname={nickname}
+                            setNickname={setNickname}
+                            changeNickname={changeNickname}
+                        />
+                    </div>
+                )}
+            </div>
             <Footer />
-        </>
+        </div>
     );
 };
 

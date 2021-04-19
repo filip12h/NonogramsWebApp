@@ -93,12 +93,25 @@ body {
     background-size: cover;
     font-weight: 300;
     width: 54%;
-    padding: 10px 23% 42px 23%;
+    padding: 0px 23% 0px 23%;
 }
 
 footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 3.5rem;
     text-align: center;
     color: #888;
+}
+
+.content-wrap {
+    padding-bottom: 5rem;
+}
+
+.page-container {
+    position: relative;
+    min-height: 100vh;
 }
 
 table {
@@ -290,7 +303,8 @@ p {
 }
 
 .changeOption:hover {
-    padding: 10px 0;
+    font-size: 20px;
+    padding: 15px 0;
     border-color: 2px rgb(238, 232, 232) solid;
     border-top: 0px;
     background-color: rgb(221, 214, 184);
@@ -304,4 +318,32 @@ p {
     width: 100%;
     font-size: 12px;
     color: rgb(172, 40, 40);
+}
+
+@keyframes show {
+    0% {
+        left: 0px;
+        top: 20px;
+        opacity: 0;
+    }
+    100% {
+        left: 0px;
+        top: 0px;
+    }
+}
+.showSite {
+    position: relative;
+    animation-name: show;
+    animation-duration: 0.8s;
+}
+
+@keyframes fi {
+    0% {
+        opacity: 0;
+    }
+}
+
+.fadeIn {
+    animation-name: fi;
+    animation-duration: 0.8s;
 }
