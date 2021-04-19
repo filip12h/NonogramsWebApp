@@ -129,6 +129,16 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
         generate(true);
     };
 
+    const upload = (w: number, h: number, s: string) => {
+        uploadNonogram(w, h, s);
+        changeWidth(0);
+        changeHeight(0);
+        generate(false);
+        computeOuterNumbers(false);
+        resizeTable(false);
+        makeProgress(emptyProgress);
+    };
+
     const makeTable = () => {
         return (
             <div className="center">
@@ -189,9 +199,7 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
                         type="submit"
                         name="generateTable"
                         value="Upload Nonogram"
-                        onClick={() =>
-                            uploadNonogram(tableWidth, tableHeight, progress.flat().join(''))
-                        }
+                        onClick={() => upload(tableWidth, tableHeight, progress.flat().join(''))}
                     />
                 )}
             </div>

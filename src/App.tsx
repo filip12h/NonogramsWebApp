@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { useAuth0 } from '@auth0/auth0-react';
+/* import { useAuth0 } from '@auth0/auth0-react'; */
 import Footer from './components/Footer';
 import Board from './components/Board';
 import Top from './components/Top';
@@ -10,8 +10,8 @@ import BoardCreator from './components/BoardCreator';
 import ListNonograms from './components/ListNonograms';
 import firebase from './util/firebase';
 
-const App: React.FC = () => {
-    /*
+const App: React.FC = (): JSX.Element => {
+    /* 
     const solution = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0],
@@ -243,8 +243,171 @@ const App: React.FC = () => {
         ],
     ];
 */
-
     const [nonogramList, setNonogramList] = useState<any[]>([]);
+    const [nonogramWidth, changeWidth] = useState(5);
+    const [nonogramHeight, changeHeight] = useState(5);
+    const [activeSolution, changeSolution] = useState([
+        [3, 0, 0, 0, 1],
+        [3, 1, 0, 0, 1],
+        [1, 0, 1, 0, 1],
+        [1, 0, 0, 1, 2],
+        [1, 0, 0, 0, 2],
+    ]);
+    const [activeOuterUpperNumbers, changeUpper] = useState([
+        [
+            [3, 1],
+            [2, 3],
+        ],
+        [[1, 1]],
+        [[1, 1]],
+        [[1, 1]],
+        [
+            [2, 2],
+            [3, 1],
+        ],
+    ]);
+    const [activeOuterLeftNumbers, changeLeft] = useState([
+        [
+            [1, 3],
+            [1, 1],
+        ],
+        [
+            [1, 3],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [1, 1],
+            [1, 1],
+        ],
+        [
+            [1, 1],
+            [1, 1],
+            [1, 2],
+        ],
+        [
+            [1, 1],
+            [1, 2],
+        ],
+    ]);
+    const [correctCounter, change] = useState(0);
+    const [userId, setUserId] = useState('');
+    const [userAuthId, setUserAuthId] = useState('');
+    const [nickname, changeNickname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [hasAccount, setHasAccount] = useState(false);
+
+    const clearInputs = () => {
+        setEmail('');
+        setPassword('');
+    };
+
+    const clearErrors = () => {
+        setEmailError('');
+        setPasswordError('');
+    };
+
+    const setNickname = () => {
+        firebase.database().ref('User').child(userId).update({ nickname });
+    };
+
+    const handleLogin = () => {
+        clearErrors();
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .catch((err) => {
+                switch (err.code) {
+                    case 'auth/invalid-email':
+                        break;
+                    case 'auth/user-disabled':
+                        break;
+                    case 'auth/user-not-found':
+                        setEmailError(err.message);
+                        break;
+                    case 'auth/wrong-password':
+                        setPasswordError(err.message);
+                        break;
+                    default:
+                        break;
+                }
+            });
+        firebase.auth().onAuthStateChanged((usr) => {
+            if (usr) {
+                const userRef = firebase.database().ref('User');
+                userRef
+                    .orderByChild('id')
+                    .equalTo(usr.uid)
+                    .once('value', (snapshot) => {
+                        setUserAuthId(usr.uid || '');
+                        if (snapshot.exists()) {
+                            console.log('welcome back');
+                        } else {
+                            console.log('welcome aboard');
+                            const newUser = {
+                                id: usr.uid,
+                                nickname: '',
+                                mail: usr.email,
+                            };
+                            const ref = userRef.push(newUser);
+                            console.log(`my key:${ref.key}`);
+                        }
+                        userRef
+                            .orderByChild('id')
+                            .equalTo(usr.uid)
+                            .on('child_added', (snap) => {
+                                setUserId(snap.key || '');
+                            });
+                    });
+                clearInputs();
+            } else {
+                setUserAuthId('');
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (userId)
+            firebase
+                .database()
+                .ref('User')
+                .child(userId)
+                .once('value', (snap) => {
+                    changeNickname(snap.val().nickname);
+                });
+    }, [userId]);
+
+    const handleSignup = () => {
+        clearErrors();
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .catch((err) => {
+                switch (err.code) {
+                    case 'auth/email-already-in-use':
+                        break;
+                    case 'auth/invalid-email':
+                        setEmailError(err.message);
+                        break;
+                    case 'auth/weak-password':
+                        setPasswordError(err.message);
+                        break;
+                    default:
+                        break;
+                }
+            });
+    };
+
+    const handleLogout = () => {
+        changeNickname('');
+        setUserId('');
+        setUserAuthId('');
+        firebase.auth().signOut();
+    };
 
     useEffect(() => {
         const nonogramRef = firebase.database().ref('Nonogram');
@@ -260,8 +423,11 @@ const App: React.FC = () => {
         });
     }, []);
 
-    const [nonogramWidth, changeWidth] = useState(5);
-    const [nonogramHeight, changeHeight] = useState(5);
+    useEffect(() => {
+        change(
+            activeSolution.reduce((a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0), 0),
+        );
+    }, [activeSolution]);
 
     const outerLeftNumbersGenerator = (progress: number[][], wdth: number, hght: number) => {
         const outerLeftNumbers: number[][][] = [];
@@ -338,56 +504,6 @@ const App: React.FC = () => {
         return solution;
     };
 
-    const [activeSolution, changeBoard] = useState([
-        [3, 0, 0, 0, 1],
-        [3, 1, 0, 0, 1],
-        [1, 0, 1, 0, 1],
-        [1, 0, 0, 1, 2],
-        [1, 0, 0, 0, 2],
-    ]);
-
-    const [activeOuterUpperNumbers, changeUpper] = useState([
-        [
-            [3, 1],
-            [2, 3],
-        ],
-        [[1, 1]],
-        [[1, 1]],
-        [[1, 1]],
-        [
-            [2, 2],
-            [3, 1],
-        ],
-    ]);
-
-    const [activeOuterLeftNumbers, changeLeft] = useState([
-        [
-            [1, 3],
-            [1, 1],
-        ],
-        [
-            [1, 3],
-            [1, 1],
-            [1, 1],
-        ],
-        [
-            [1, 1],
-            [1, 1],
-            [1, 1],
-        ],
-        [
-            [1, 1],
-            [1, 1],
-            [1, 2],
-        ],
-        [
-            [1, 1],
-            [1, 2],
-        ],
-    ]);
-
-    const [correctCounter, change] = useState(12);
-
     const checkCorrectness = (id: number, previousValue: number, clicked: number) => {
         // we need to prevent cases when we cross out empty space correctly. That times the value is not changed
         if (previousValue !== clicked)
@@ -417,18 +533,23 @@ const App: React.FC = () => {
     const clickMenu = (i: number) => {
         changeActiveMenu(i);
     };
-
+    /*
     const { user, isAuthenticated } = useAuth0();
-
+*/
     const uploadNonogram = (w: number, h: number, s: string) => {
         const nonogramRef = firebase.database().ref('Nonogram');
         const nonogram = {
+            author: nickname || '?',
             width: w,
             height: h,
             solution: s,
         };
         nonogramRef.push(nonogram);
-        setNonogramList([...nonogramList, { width: w, height: h, solution: s }]);
+        setNonogramList([
+            ...nonogramList,
+            { author: nickname || '?', width: w, height: h, solution: s },
+        ]);
+        changeActiveMenu(3);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -440,7 +561,7 @@ const App: React.FC = () => {
         const nonogramMatrix = stringToSolution(nonogram.solution, nonogram.width, nonogram.height);
         changeWidth(nonogram.width);
         changeHeight(nonogram.height);
-        changeBoard(nonogramMatrix);
+        changeSolution(nonogramMatrix);
         changeUpper(outerUpperNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         changeLeft(outerLeftNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         change(
@@ -452,7 +573,7 @@ const App: React.FC = () => {
     return (
         <>
             <Top changeSite={clickMenu} active={activeMenu} />
-            <div id="activeAnnouncement">Active: {isAuthenticated ? user.id : 'anonym'}</div>
+            <div id="activeAnnouncement">Active: {nickname || 'anonym'}</div>
             {activeMenu === 0 && (
                 <>
                     <Board
@@ -478,7 +599,25 @@ const App: React.FC = () => {
                     <ListNonograms showBoard={showBoard} nonogramList={nonogramList} />
                 </>
             )}
-            {activeMenu === 4 && <Profile />}
+            {activeMenu === 4 && (
+                <Profile
+                    email={email}
+                    password={password}
+                    setEmail={setEmail}
+                    setPassword={setPassword}
+                    handleLogin={handleLogin}
+                    handleSignup={handleSignup}
+                    hasAccount={hasAccount}
+                    setHasAccount={setHasAccount}
+                    emailError={emailError}
+                    passwordError={passwordError}
+                    handleLogout={handleLogout}
+                    isLoggedIn={userAuthId.length > 0}
+                    nickname={nickname}
+                    setNickname={setNickname}
+                    changeNickname={changeNickname}
+                />
+            )}
             <Footer />
         </>
     );

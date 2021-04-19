@@ -20,7 +20,7 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({ showBoard, nonogramList }
                             onClick={() => showBoard(row.id)}
                             onKeyDown={() => showBoard(row.id)}
                         >
-                            Author: {row.author_id || '?'} | {row.width}x{row.height}
+                            Author: {row.author || '?'} | {row.width}x{row.height}
                         </a>
                     </div>
                 );
