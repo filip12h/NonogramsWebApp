@@ -16,7 +16,7 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
 
     const [isComputed, computeOuterNumbers] = useState(false);
 
-    const [generatedTableIsResized, resizeTable] = useState(false);
+    const [isResized, resizeTable] = useState(false);
 
     const clickComputeHandler = () => {
         computeOuterNumbers(true);
@@ -141,40 +141,42 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
 
     const makeTable = () => {
         return (
-            <div className="center">
-                <label htmlFor="width">
-                    width
+            <div className="createContainer">
+                <div className="inputContainer">
+                    <label htmlFor="width">
+                        width
+                        <input
+                            className="boxes"
+                            type="text"
+                            id="width"
+                            value={widthInput}
+                            onChange={(e) => changeWidthValue(e.target.value)}
+                        />
+                    </label>
+                    <br />
+                    <label htmlFor="height">
+                        height
+                        <input
+                            className="boxes"
+                            type="text"
+                            id="height"
+                            value={heightInput}
+                            onChange={(e) => changeHeightValue(e.target.value)}
+                        />
+                    </label>
+                </div>
+                {(!isGenerated || isResized) && (
                     <input
-                        className="boxes"
-                        type="text"
-                        id="width"
-                        value={widthInput}
-                        onChange={(e) => changeWidthValue(e.target.value)}
-                    />
-                </label>
-
-                <label htmlFor="height">
-                    height
-                    <input
-                        className="boxes"
-                        type="text"
-                        id="height"
-                        value={heightInput}
-                        onChange={(e) => changeHeightValue(e.target.value)}
-                    />
-                </label>
-
-                {(!isGenerated || generatedTableIsResized) && (
-                    <input
+                        className="genCompButton"
                         type="submit"
                         name="generateTable"
                         value="Generate Table"
                         onClick={() => generateTable()}
                     />
                 )}
-                {isGenerated && !generatedTableIsResized && (
+                {isGenerated && !isResized && (
                     <input
-                        className="center"
+                        className="genCompButton"
                         type="submit"
                         name="computeNumbers"
                         value="Compute Numbers"
@@ -182,7 +184,7 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
                     />
                 )}
 
-                {(isGenerated || generatedTableIsResized) && (
+                {(isGenerated || isResized) && (
                     <Board
                         width={tableWidth}
                         height={tableHeight}
@@ -196,6 +198,7 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
                 )}
                 {isComputed && (
                     <input
+                        className="defaultButton"
                         type="submit"
                         name="generateTable"
                         value="Upload Nonogram"

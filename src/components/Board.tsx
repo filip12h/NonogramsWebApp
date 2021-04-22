@@ -84,10 +84,6 @@ const Board: React.FC<BoardProps> = ({
     );
     const [selectedColor, changeColor] = useState(1);
 
-    const pickColor = (i: number) => {
-        changeColor(i);
-    };
-
     /*   TODO nieco strasne tunak...   */
 
     const clickOnCell = (id: number, clicked: number) => {
@@ -116,10 +112,25 @@ const Board: React.FC<BoardProps> = ({
                 elements.push(<td className="leftNumbers nonogramDefinition">.</td>);
             } else {
                 elements.push(
+                    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
                     <td
                         className={`leftNumbers nonogramDefinitionNumber color${
                             leftNum[i][j - numOfLeftColumns + leftNum[i].length][1]
                         }`}
+                        onClick={() =>
+                            document
+                                .getElementById(
+                                    `${leftNum[i][j - numOfLeftColumns + leftNum[i].length][1]}`,
+                                )
+                                ?.click()
+                        }
+                        onKeyUp={() =>
+                            document
+                                .getElementById(
+                                    `${leftNum[i][j - numOfLeftColumns + leftNum[i].length][1]}`,
+                                )
+                                ?.click()
+                        }
                     >
                         {leftNum[i][j - numOfLeftColumns + leftNum[i].length][0]}
                     </td>,
@@ -148,8 +159,16 @@ const Board: React.FC<BoardProps> = ({
                             className={`upperNumbers column5 nonogramDefinitionNumber color${
                                 upNum[j][numOfUpperRows - 1 - i][1]
                             }`}
-                            onClick={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
-                            onKeyUp={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
+                            onClick={() =>
+                                document
+                                    .getElementById(`${upNum[j][numOfUpperRows - 1 - i][1]}`)
+                                    ?.click()
+                            }
+                            onKeyUp={() =>
+                                document
+                                    .getElementById(`${upNum[j][numOfUpperRows - 1 - i][1]}`)
+                                    ?.click()
+                            }
                         >
                             {upNum[j][numOfUpperRows - 1 - i][0]}
                         </td>,
@@ -161,8 +180,16 @@ const Board: React.FC<BoardProps> = ({
                             className={`upperNumbers nonogramDefinitionNumber color${
                                 upNum[j][numOfUpperRows - 1 - i][1]
                             }`}
-                            onClick={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
-                            onKeyUp={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
+                            onClick={() =>
+                                document
+                                    .getElementById(`${upNum[j][numOfUpperRows - 1 - i][1]}`)
+                                    ?.click()
+                            }
+                            onKeyUp={() =>
+                                document
+                                    .getElementById(`${upNum[j][numOfUpperRows - 1 - i][1]}`)
+                                    ?.click()
+                            }
                         >
                             {upNum[j][numOfUpperRows - 1 - i][0]}
                         </td>,
@@ -234,7 +261,11 @@ const Board: React.FC<BoardProps> = ({
     const makeTable = () => {
         return (
             <>
-                <ColorPicker onChange={pickColor} />
+                <ColorPicker
+                    onChange={changeColor}
+                    pickedColor={selectedColor}
+                    colorsUsed={Array.from(new Set(solution)).sort().toString()}
+                />
                 <table onContextMenu={(e) => e.preventDefault}>{tableGenerator()}</table>
             </>
         );

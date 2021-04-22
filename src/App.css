@@ -134,7 +134,7 @@ table button {
     border: 1px;
     margin: 0;
     background-color: #efeae2;
-    cursor: cell;
+    cursor: crosshair;
 }
 
 table button:hover {
@@ -251,16 +251,42 @@ table button:hover {
     text-align: center;
 }
 
-.boxes {
+.colorPicker {
+    width: fit-content;
+    height: fit-content;
+    margin: 15px auto auto auto;
+    padding: 5px 0 0 0;
+    border: 3px #876 double;
+    border-radius: 15px;
+}
+.colorPicker button {
     width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0 5px;
+    border: 0;
+    border-radius: 10px;
+    transition: 0.4s;
 }
 
-.colorPicker {
-    min-width: 150px;
-    width: 20%;
-    margin: auto;
-    background-color: burlywood;
+.colorPicker button img {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+    transition: 0.3s;
 }
+
+.colorPicker button:hover {
+    background-color: blanchedalmond;
+    opacity: 0.7;
+    cursor: pointer;
+}
+.picked img {
+    box-shadow: 0 0 10px, 0 0 10px;
+}
+
 p {
     display: inline-block;
     margin: auto;
@@ -316,6 +342,61 @@ p {
     border-color: 2px rgb(238, 232, 232) solid;
     border-top: 0px;
     background-color: rgb(221, 214, 184);
+}
+
+.createContainer {
+    margin: 0 auto 20px auto;
+    width: 50%;
+    text-align: center;
+    display: inline;
+}
+
+.inputContainer {
+    float: left;
+    width: 45%;
+    outline: 0px black solid;
+    text-align: right;
+}
+
+.boxes {
+    width: 7%;
+    background-color: rgb(236, 235, 233);
+    height: 20px;
+    font-size: 18px;
+    border: 0px black solid;
+    outline: 0;
+    text-align: right;
+}
+
+.genCompButton {
+    height: 44px;
+    width: 20%;
+    margin-right: 35%;
+    border: 2px rgb(195, 187, 147) solid;
+    background-color: rgb(195, 187, 147);
+    transition: 1s;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.genCompButton:hover {
+    border: 2px rgb(195, 187, 147) solid;
+    background-color: rgb(235, 225, 178);
+}
+
+.defaultButton {
+    height: 44px;
+    width: 20%;
+    margin-left: 40%;
+    border: 2px rgb(195, 187, 147) solid;
+    background-color: rgb(195, 187, 147);
+    transition: 1s;
+    font-size: 18px;
+    cursor: pointer;
+}
+.defaultButton:hover {
+    border: 2px rgb(195, 187, 147) solid;
+    background-color: rgb(235, 225, 178);
 }
 
 #activeAnnouncement {
