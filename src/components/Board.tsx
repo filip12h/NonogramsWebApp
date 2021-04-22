@@ -117,7 +117,7 @@ const Board: React.FC<BoardProps> = ({
             } else {
                 elements.push(
                     <td
-                        className={`leftNumbers nonogramDefinition color${
+                        className={`leftNumbers nonogramDefinitionNumber color${
                             leftNum[i][j - numOfLeftColumns + leftNum[i].length][1]
                         }`}
                     >
@@ -143,20 +143,26 @@ const Board: React.FC<BoardProps> = ({
             if (upNum[j].length >= numOfUpperRows - i) {
                 if (j % 5 === 0) {
                     elements.push(
+                        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
                         <td
-                            className={`upperNumbers column5 nonogramDefinition color${
+                            className={`upperNumbers column5 nonogramDefinitionNumber color${
                                 upNum[j][numOfUpperRows - 1 - i][1]
                             }`}
+                            onClick={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
+                            onKeyUp={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
                         >
                             {upNum[j][numOfUpperRows - 1 - i][0]}
                         </td>,
                     );
                 } else {
                     elements.push(
+                        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
                         <td
-                            className={`upperNumbers nonogramDefinition color${
+                            className={`upperNumbers nonogramDefinitionNumber color${
                                 upNum[j][numOfUpperRows - 1 - i][1]
                             }`}
+                            onClick={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
+                            onKeyUp={() => changeColor(upNum[j][numOfUpperRows - 1 - i][1])}
                         >
                             {upNum[j][numOfUpperRows - 1 - i][0]}
                         </td>,

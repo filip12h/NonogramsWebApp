@@ -122,7 +122,7 @@ table {
 
 td {
     height: 30px;
-    width: 30px;
+    min-width: 30px;
     border: 1px solid black;
     padding: 0px;
     background-color: #efeae2;
@@ -134,6 +134,7 @@ table button {
     border: 1px;
     margin: 0;
     background-color: #efeae2;
+    cursor: cell;
 }
 
 table button:hover {
@@ -231,6 +232,13 @@ table button:hover {
     background: transparent;
     text-align: center;
     vertical-align: center;
+    cursor: default;
+}
+.nonogramDefinitionNumber {
+    background: transparent;
+    text-align: center;
+    vertical-align: center;
+    cursor: pointer;
 }
 
 .crossed {
