@@ -63,32 +63,31 @@ type BoardProps = {
     width: number;
     height: number;
     solution: number[][];
-    progress: number[][];
     upNum: number[][][];
     leftNum: number[][][];
     checkCorrect: (a: number, prev: number, b: number) => void;
     makeCreationProgress: (a: number, b: number) => void;
+    makeProgress: (matrix: number[][]) => void;
+    currentProgress: number[][];
 };
 const Board: React.FC<BoardProps> = ({
     width,
     height,
     solution,
-    progress,
     upNum,
     leftNum,
     checkCorrect,
     makeCreationProgress,
+    makeProgress,
+    currentProgress,
 }) => {
-    const [currentProgress, makeProgress] = useState(
-        new Array(height).fill(new Array(width).fill(0)),
-    );
     const [selectedColor, changeColor] = useState(1);
 
     /*   TODO nieco strasne tunak...   */
 
     const clickOnCell = (id: number, clicked: number) => {
         const newProgress: number[][] = currentProgress;
-        // newProgress[Math.floor(id / width)][id % width] = clicked;
+        newProgress[Math.floor(id / width)][id % width] = clicked;
         makeProgress(newProgress);
         makeCreationProgress(id, clicked);
     };
@@ -98,12 +97,6 @@ const Board: React.FC<BoardProps> = ({
     /*   TODO: we need to calculate this to render appropriate number of columns/rows   */
     const numOfUpperRows = Math.max(...upNum.map((col) => col.length));
     const numOfLeftColumns = Math.max(...leftNum.map((row) => row.length));
-
-    // just some stupid test I'll delete later
-    if (solution.length === 5 && progress.length === 1) {
-        // eslint-disable-next-line
-        alert('haha');
-    }
 
     const outerLeftNumbersGenerator = (i: number) => {
         const elements = [];

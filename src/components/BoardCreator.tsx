@@ -191,9 +191,10 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram }) => {
                         leftNum={isComputed ? outerLeftNumbersGenerator() : []}
                         upNum={isComputed ? outerUpperNumbersGenerator() : []}
                         solution={[[]]}
-                        progress={progress}
                         checkCorrect={() => null}
                         makeCreationProgress={clickOnCell}
+                        currentProgress={progress}
+                        makeProgress={makeProgress}
                     />
                 )}
                 {isComputed && (

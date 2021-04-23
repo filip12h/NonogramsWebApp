@@ -300,6 +300,36 @@ const App: React.FC = (): JSX.Element => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [hasAccount, setHasAccount] = useState(true);
+    const [activeNonogramId, changeActiveNonogramId] = useState('');
+    const [currentProgress, makeNewProgress] = useState(() => {
+        const array: number[][] = [];
+        for (let i = 0; i < activeSolution.length; i += 1) {
+            array.push([]);
+            for (let j = 0; j < activeSolution[0].length; j += 1) {
+                array[i].push(0);
+            }
+        }
+        return array;
+    });
+
+    const makeProgress = (progress: number[][]) => {
+        makeNewProgress(progress);
+        if (userAuthId)
+            firebase
+                .database()
+                .ref('User')
+                .child(userId)
+                .child('progresses')
+                .child(activeNonogramId)
+                .once('value', (snapshot) => {
+                    if (snapshot.val() != null) {
+                        snapshot.ref.set(progress.flat().toString().replace(/,/g, ''));
+                        console.log(progress.flat().toString());
+                    } else {
+                        snapshot.ref.set(progress.flat().toString().replace(/,/g, ''));
+                    }
+                });
+    };
 
     const clearInputs = () => {
         setEmail('');
@@ -558,9 +588,48 @@ const App: React.FC = (): JSX.Element => {
         console.log(id);
         const nonogram = nonogramList.find((x) => x.id === id); // TODO: toto musim zmenit lebo id nezodpoveda riadku
         console.log(nonogram);
+        changeActiveNonogramId(id);
         const nonogramMatrix = stringToSolution(nonogram.solution, nonogram.width, nonogram.height);
         changeWidth(nonogram.width);
         changeHeight(nonogram.height);
+        if (
+            firebase
+                .database()
+                .ref(`User`)
+                .child(userId)
+                .child(`progresses${id}`)
+                .once('value', (snapshot) => {
+                    console.log(snapshot.exists());
+                    if (snapshot.exists()) return true;
+                    return false;
+                })
+        ) {
+            console.log('alert1');
+            makeNewProgress(() => {
+                const array: number[][] = [];
+                for (let i = 0; i < nonogram.height; i += 1) {
+                    array.push([]);
+                    for (let j = 0; j < nonogram.width; j += 1) {
+                        array[i].push(0);
+                        // snapshot.val()[i * nonogramWidth + j]
+                    }
+                }
+                return array;
+            });
+        } else {
+            console.log('alert2');
+
+            makeNewProgress(() => {
+                const array: number[][] = [];
+                for (let i = 0; i < nonogram.height; i += 1) {
+                    array.push([]);
+                    for (let j = 0; j < nonogram.width; j += 1) {
+                        array[i].push(0);
+                    }
+                }
+                return array;
+            });
+        }
         changeSolution(nonogramMatrix);
         changeUpper(outerUpperNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         changeLeft(outerLeftNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
@@ -575,7 +644,6 @@ const App: React.FC = (): JSX.Element => {
             <div className="content-wrap">
                 <Top changeSite={clickMenu} active={activeMenu} />
                 <div id="activeAnnouncement">Active: {nickname || 'anonym'}</div>
-
                 {activeMenu === 0 && (
                     <div className="showSite">
                         <Board
@@ -584,9 +652,10 @@ const App: React.FC = (): JSX.Element => {
                             leftNum={activeOuterLeftNumbers}
                             upNum={activeOuterUpperNumbers}
                             solution={activeSolution}
-                            progress={[]}
                             checkCorrect={checkCorrectness}
                             makeCreationProgress={() => null}
+                            currentProgress={currentProgress}
+                            makeProgress={makeProgress}
                         />
                     </div>
                 )}
