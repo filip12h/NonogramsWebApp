@@ -1,4 +1,4 @@
-# Check alpha version here: https://nononograms.web.app
+# Check BETA version here: https://nononograms.web.app
 
 # Nonograms, report 5, doterajšia práca, Filip Husár
 
