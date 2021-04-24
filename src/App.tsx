@@ -322,12 +322,7 @@ const App: React.FC = (): JSX.Element => {
                 .child('progresses')
                 .child(activeNonogramId)
                 .once('value', (snapshot) => {
-                    if (snapshot.val() != null) {
-                        snapshot.ref.set(progress.flat().toString().replace(/,/g, ''));
-                        console.log(progress.flat().toString());
-                    } else {
-                        snapshot.ref.set(progress.flat().toString().replace(/,/g, ''));
-                    }
+                    snapshot.ref.set(progress.flat().toString().replace(/,/g, ''));
                 });
     };
 
@@ -592,44 +587,41 @@ const App: React.FC = (): JSX.Element => {
         const nonogramMatrix = stringToSolution(nonogram.solution, nonogram.width, nonogram.height);
         changeWidth(nonogram.width);
         changeHeight(nonogram.height);
-        if (
-            firebase
-                .database()
-                .ref(`User`)
-                .child(userId)
-                .child(`progresses${id}`)
-                .once('value', (snapshot) => {
-                    console.log(snapshot.exists());
-                    if (snapshot.exists()) return true;
-                    return false;
-                })
-        ) {
-            console.log('alert1');
-            makeNewProgress(() => {
-                const array: number[][] = [];
-                for (let i = 0; i < nonogram.height; i += 1) {
-                    array.push([]);
-                    for (let j = 0; j < nonogram.width; j += 1) {
-                        array[i].push(0);
-                        // snapshot.val()[i * nonogramWidth + j]
-                    }
-                }
-                return array;
-            });
-        } else {
-            console.log('alert2');
 
-            makeNewProgress(() => {
-                const array: number[][] = [];
-                for (let i = 0; i < nonogram.height; i += 1) {
-                    array.push([]);
-                    for (let j = 0; j < nonogram.width; j += 1) {
-                        array[i].push(0);
-                    }
+        firebase
+            .database()
+            .ref(`User/${userId}/progresses/${id}`)
+            .once('value', (snapshot) => {
+                console.log(snapshot.exists());
+                if (snapshot.exists()) {
+                    console.log('alert1');
+                    makeNewProgress(() => {
+                        const array: number[][] = [];
+                        for (let i = 0; i < nonogram.height; i += 1) {
+                            array.push([]);
+                            for (let j = 0; j < nonogram.width; j += 1) {
+                                array[i].push(snapshot.val()[i * nonogramWidth + j]);
+                            }
+                        }
+                        return array;
+                    });
+                    // and also we want all Tiles to be properly clicked, so we handel this deeper in Tile section
+                } else {
+                    console.log('alert2');
+
+                    makeNewProgress(() => {
+                        const array: number[][] = [];
+                        for (let i = 0; i < nonogram.height; i += 1) {
+                            array.push([]);
+                            for (let j = 0; j < nonogram.width; j += 1) {
+                                array[i].push(0);
+                            }
+                        }
+                        return array;
+                    });
                 }
-                return array;
             });
-        }
+
         changeSolution(nonogramMatrix);
         changeUpper(outerUpperNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         changeLeft(outerLeftNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));

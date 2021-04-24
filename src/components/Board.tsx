@@ -7,10 +7,18 @@ type TileProps = {
     pickedColor: number;
     checkCorrect: (a: number, prev: number, b: number) => void;
     makeProgress: (a: number, b: number) => void;
+    progress: number;
 };
 
-const Tile: React.FC<TileProps> = ({ id, col5, pickedColor, checkCorrect, makeProgress }) => {
-    const [clicked, changeClicked] = useState(0);
+const Tile: React.FC<TileProps> = ({
+    id,
+    col5,
+    pickedColor,
+    checkCorrect,
+    makeProgress,
+    progress,
+}) => {
+    const [clicked, changeClicked] = useState(progress);
     const [crossed, changeCross] = useState(false);
 
     // afraid I do not know how to change that any so far...
@@ -197,7 +205,7 @@ const Board: React.FC<BoardProps> = ({
         return elements;
     };
 
-    const rowGenerator = (j: number) => {
+    const rowGenerator = (j: number, prog: number[][]) => {
         const elements = [];
 
         for (let i = 0; i < width; i += 1) {
@@ -209,6 +217,10 @@ const Board: React.FC<BoardProps> = ({
                         pickedColor={selectedColor}
                         checkCorrect={checkCorrect}
                         makeProgress={clickOnCell}
+                        progress={parseInt(
+                            prog.flat().toString().replace(/,/g, '')[i + j * width],
+                            10,
+                        )}
                     />,
                 );
             } else {
@@ -219,6 +231,10 @@ const Board: React.FC<BoardProps> = ({
                         pickedColor={selectedColor}
                         checkCorrect={checkCorrect}
                         makeProgress={clickOnCell}
+                        progress={parseInt(
+                            prog.flat().toString().replace(/,/g, '')[i + j * width],
+                            10,
+                        )}
                     />,
                 );
             }
@@ -226,8 +242,9 @@ const Board: React.FC<BoardProps> = ({
         return elements;
     };
 
-    const tableGenerator = () => {
+    const tableGenerator = (progress: number[][]) => {
         const elements = [];
+
         /*   we generate upper rows first   */
         for (let i = 0; i < numOfUpperRows; i += 1) {
             elements.push(<tr> {upperRowsGenerator(i)} </tr>);
@@ -237,13 +254,13 @@ const Board: React.FC<BoardProps> = ({
             if (i % 5 === 0) {
                 elements.push(
                     <tr className="row5" key={i.toString()}>
-                        {outerLeftNumbersGenerator(i)} {rowGenerator(i)}
+                        {outerLeftNumbersGenerator(i)} {rowGenerator(i, progress)}
                     </tr>,
                 );
             } else {
                 elements.push(
                     <tr key={i.toString()}>
-                        {outerLeftNumbersGenerator(i)} {rowGenerator(i)}
+                        {outerLeftNumbersGenerator(i)} {rowGenerator(i, progress)}
                     </tr>,
                 );
             }
@@ -259,7 +276,9 @@ const Board: React.FC<BoardProps> = ({
                     pickedColor={selectedColor}
                     colorsUsed={Array.from(new Set(solution)).sort().toString()}
                 />
-                <table onContextMenu={(e) => e.preventDefault}>{tableGenerator()}</table>
+                <table onContextMenu={(e) => e.preventDefault}>
+                    {tableGenerator(currentProgress)}
+                </table>
             </>
         );
     };
