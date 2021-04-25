@@ -1,59 +1,42 @@
 # Check BETA version here: https://nononograms.web.app
 
-# Nonograms, report 5, doterajšia práca, Filip Husár
+# Nonograms, report 6, 10.týždeň, Filip Husár
 
 ## Plán:
 
-    - konečne zapracovať SQL, bude to pre mňa premiéra tak neviem odhadnúť ako mi to pôjde, ale minimálne chcem pre každého užívateľa mať v databáze rozpracovaný stav tej jednej krížovky na hlavnej stránke
-        - pridať na stránku viacej krížoviek a nech si užívateľ môže vyberať ktorú lúštiť
-            - krížovku pred vylúštením zobrazovať tajnú, po vylúštení už bude vidno obrázok
-        - umožniť užívateľovi svoju vytvorenú krížovku pridať do svojej databázy
-    - drobnosti ak na ne vyjde čas
-        - pri každej krížovke mať zaznačené iba farby v nej použité a iba tie dať užívateľovi na výber - teda aby nemohol vyfarbovať farbou ktorá v krížovke nie je
-        - umožniť adminovi jednotlivé vyrobené krížovky zverejniť do verejnej databázy
-            - pri krížovke by bolo meno autora, dátum a iné.
-
-## Spravená práca:
-
-    - spojazdnil som si MySQL lokálne, avšak s nahodením na hosting som mal problémy, venoval som tomu pomerne dlhý čas, tak som nakoniec zmenil plán a databázu robím vo Firebase kde mám aj nahodený projekt
-            - aj je to oveľa logickejšie, neviem prečo som si to nedal už do pôvodného plánu takto, asi preto že v tom robím prvýkrát a ešte som nevedel čo všetko to ponúka a ako sa v tom bude robiť
-    - upravil som registráciu, nerobím ju cez Providera Auth0 ale pomocou autentifikácie priamo na firebase. Vďaka tomu bude narábanie s údajmi jednoduchšie
-    - vytvorená databáza užívateľov ako aj krížoviek
-    - zobraozvanie všetkých vytvorených krížoviek v kolekcii a vybratie krížovky ktorú bude možné vylúštiť
-    - užívateľom som umožnil meniť si prezývku
-
-### Dôvody "nedokonalosti" a.k.a nesplnenia cieľa do bodky:
-
-    - nepodarilo sa mi ukladať progres vylúštenia - t.j.keď sa užívateľ odhlási počas lúštenia a opäť prihlási, tak môže pokračovať v práci
-        - toto je čisto časový dôvod. Veľa času som strávil jednak s tým ako spojazdniť MySQL a potom tiež ako to nahodiť funkčné na hosting. Žiaľ, všetká táto snaha sa ukázala neskôr márna.
-        - teraz keď už mám rozbehanú databázu tak by to malo byť v pohode, kde u každého užívateľa budem mať uložený zoznam vylúštených, podobne ako aj zoznam progresu - dvojica (krížovka, progres)
-    - taktiež nie je spravené odtajnenie krížovky s obrázkom - tiež za tým hľadajme časové dôvody, no pri tomto som zmenil prioritu. Teraz sú dôležitejšie veci na práci
-
-## Vynaložené úsilie:
-    - opäť okolo 14-15 hodín
-        - žiaľ, veľká časť z toho, cca 6 hodín, bolo venovaných MySQL. Ak by bolo treba, dám k dispozícii kód
-    - celkovo okolo 55 hodín
-
-
-## Najbližšie obdobie:
     - pridať do databázy užívateľov progres spravených krížoviek
     - filtrovanie krížoviek
     - umožnenie iba tých farieb ktoré sú použité v krížovke
     - sekundárna priorita ak by vyšiel čas: nejaká základná interakcia užívateľov - vyhľadávanie kamošov možno
+
+## Spravená práca:
+
+    - podarilo sa:
+        - pridať do databázy progres užívateľov. Každý si tak môže začať niečo lúštiť, prepnúť na inú časť appky alebo dokonca odhlásiť, vždy sa vráti k stavu kde bol
+        - umožnenie farbenia iba tými farbami ktoré sú v krížovke
+    - navyše
+        - mimo plánu som pridal aj resetovací button. Pokiaľ chce užívateľ vylúštiť krížovku znova, môže kliknúť na reset.
+        - zmena colorPickeru aby to bolo lepšie použiteľné
+        - pridanie nejakých jednoduchých notifikácií namiesto čkaredých alertov
+                - upload krížovky, vylúštenie, prihlásenie, odhlásenie, zmena nickname...
+        - CSS - zlepšený vzhľad pre mobilné použitie
+
+### Dôvody "nedokonalosti" a.k.a nesplnenia cieľa do bodky:
+
+    - v zásade neboli nejaké závažné dôvody prečo sa mi nepodarilo spraviť filter krížoviek, iba som proste trochu pomenil plán týždňa a zaoberal sa viacerými inými vecami ktoré mi pohltili vyhradený čas.
+    - Verím však že niečo ako filter nebude robiť problémy, keďže sme si niečo obdobné aj na cvikách ukázali
+
+## Vynaložené úsilie:
+    - okolo 11-12 hodín
+
+
+## Najbližšie obdobie:
+    - filtrovanie krížoviek
+    - vyhľadávanie iných užívateľov, príp.aj označovanie ako Friendov
     
 
 
 ## Problémy:
-    - občas sa stane že mi pribudne viacero záznamov do databázy užívateľov pri registrácii/prvom prihlásení
-        - v zásade z toho zatiaľ nevyplynuli ďalšie problémy keďže vždy je zapamätaná referencia na ten posledný záznam, avšak dobudúcna toto potrebujem fixnúť
-    - niektoré farby sú zle rozoznateľné, hlavne pri večerných filtlroch obrazovky.
-        - chcem vymyslieť ako tento problém odstrániť
-            - buď dať label na každé jedno číslo akej je farby, alebo to vyriešiť tak, že po stlačení čísla sa vyberie daná farba.
-
-
-
-
-
-
-
-
+    - trochu som sa zamotal pri zmene stavu progresu aby ho zobrazovalo užívateľovi správne
+    - resetovací button mi nešiel spraviť tak aby som zostal v sekcii lúštenia, lebo krížovka sa nererendovala a nič to prakticky nespravilo. Efekt bolo vidno až keď sa z tadiaľ odišlo a následne vrátilo späť. Tak preventívne je reset spravený tak že to spraví sám.
+    - nejaké vizuálne drobnosti ohľadom tých notifikácií, hlavne čo sa miesta zobrazenia týka a niekedy aj väčšieho počtu, ale tie som robil na poslednú chvíľu a narýchlo, takže tým ešte nejaký čas určite budem venovať
