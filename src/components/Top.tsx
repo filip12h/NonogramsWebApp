@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 
 /*eslint-disable*/
 
@@ -9,7 +8,6 @@ type TopProps = {
 };
 
 const Top: React.FC<TopProps> = ({ changeSite, active }) => {
-    const { isAuthenticated, isLoading } = useAuth0();
     const clickMenu = (i: number) => {
         changeSite(i);
     };
@@ -71,6 +69,54 @@ const Top: React.FC<TopProps> = ({ changeSite, active }) => {
                         className={active === 4 ? 'active' : ''}
                     >
                         Login / My Profile
+                    </a>
+                </li>
+            </ul>
+            <ul className="menubar_mobile">
+                <li>
+                    <a
+                        role="link"
+                        tabIndex={0}
+                        onClick={() => clickMenu(1)}
+                        onKeyDown={() => clickMenu(1)}
+                        className={active === 1 ? 'active' : ''}
+                    >
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        role="link"
+                        tabIndex={0}
+                        onClick={() => clickMenu(2)}
+                        onKeyDown={() => clickMenu(2)}
+                        className={active === 2 ? 'active' : ''}
+                    >
+                        Create
+                    </a>
+                </li>
+                <li>
+                    <a
+                        role="link"
+                        tabIndex={0}
+                        onClick={() => clickMenu(3)}
+                        onKeyDown={() => clickMenu(3)}
+                        className={active === 3 ? 'active' : ''}
+                    >
+                        Search
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        role="link"
+                        tabIndex={0}
+                        onClick={() => clickMenu(4)}
+                        onKeyDown={() => clickMenu(4)}
+                        className={active === 4 ? 'active' : ''}
+                    >
+                        Profile
                     </a>
                 </li>
             </ul>

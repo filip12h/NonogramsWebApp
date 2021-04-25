@@ -77,6 +77,7 @@ type BoardProps = {
     makeCreationProgress: (a: number, b: number) => void;
     makeProgress: (matrix: number[][]) => void;
     currentProgress: number[][];
+    boardCreator: boolean;
 };
 const Board: React.FC<BoardProps> = ({
     width,
@@ -88,10 +89,12 @@ const Board: React.FC<BoardProps> = ({
     makeCreationProgress,
     makeProgress,
     currentProgress,
+    boardCreator,
 }) => {
-    const [selectedColor, changeColor] = useState(1);
-
-    /*   TODO nieco strasne tunak...   */
+    const [selectedColor, changeColor] = useState(
+        // default value is first non-blank color
+        parseInt(Array.from(new Set(solution.flat())).sort().toString()[2], 10),
+    );
 
     const clickOnCell = (id: number, clicked: number) => {
         const newProgress: number[][] = currentProgress;
@@ -267,14 +270,17 @@ const Board: React.FC<BoardProps> = ({
         }
         return elements;
     };
-
     const makeTable = () => {
         return (
             <>
                 <ColorPicker
                     onChange={changeColor}
                     pickedColor={selectedColor}
-                    colorsUsed={Array.from(new Set(solution)).sort().toString()}
+                    colorsUsed={
+                        boardCreator
+                            ? '0123456789'
+                            : Array.from(new Set(solution)).sort().toString()
+                    }
                 />
                 <table onContextMenu={(e) => e.preventDefault}>
                     {tableGenerator(currentProgress)}

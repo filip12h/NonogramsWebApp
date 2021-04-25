@@ -13,16 +13,18 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({ showBoard, nonogramList }
                 return (
                     // IDcko neskor zmazem
                     // eslint-disable-next-line react/jsx-key
-                    <div>
-                        <a
-                            role="link"
-                            tabIndex={0}
-                            onClick={() => showBoard(row.id)}
-                            onKeyDown={() => showBoard(row.id)}
-                        >
-                            Author: {row.author || '?'} | {row.width}x{row.height}
-                        </a>
-                    </div>
+                    row.enable && (
+                        <div>
+                            <a
+                                role="link"
+                                tabIndex={0}
+                                onClick={() => showBoard(row.id)}
+                                onKeyDown={() => showBoard(row.id)}
+                            >
+                                Author: {row.author || '?'} <br /> {row.width}x{row.height}
+                            </a>
+                        </div>
+                    )
                 );
             })}
         </div>

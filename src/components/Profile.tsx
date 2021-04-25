@@ -52,7 +52,7 @@ const Profile: React.FC<ProfileProps> = ({
     //    const [inputDescription, setDescription] = useState('');
     return isLoggedIn ? (
         <>
-            <h2>My profile</h2>
+            <h2 className="notClickable">My profile</h2>
             <div className="profile">
                 <label htmlFor="nickname">
                     Nickname
@@ -73,7 +73,7 @@ const Profile: React.FC<ProfileProps> = ({
         </>
     ) : (
         <>
-            <h2>Log in?</h2>
+            <h2 className="notClickable">Log in?</h2>
             <div className="profile">
                 <label htmlFor="username">
                     Email

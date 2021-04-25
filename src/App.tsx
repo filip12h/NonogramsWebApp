@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import ReactNotification, { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+
 import './App.css';
 /* import { useAuth0 } from '@auth0/auth0-react'; */
 import Footer from './components/Footer';
@@ -11,238 +14,6 @@ import ListNonograms from './components/ListNonograms';
 import firebase from './util/firebase';
 
 const App: React.FC = (): JSX.Element => {
-    /* 
-    const solution = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0],
-
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0],
-        [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1],
-
-        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-        [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0],
-        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
-        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0],
-
-        [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-        [1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-    ];
-
-    // we define numbers bottom-up
-    const outerUpperNumbers = [
-        [[2, 1]],
-        [[4, 1]],
-        [
-            [1, 1],
-            [5, 1],
-        ],
-        [
-            [4, 1],
-            [3, 1],
-        ],
-        [
-            [2, 1],
-            [2, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-        ],
-        [
-            [2, 1],
-            [2, 1],
-        ],
-        [
-            [2, 1],
-            [2, 1],
-        ],
-        [
-            [1, 1],
-            [1, 1],
-            [1, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-            [1, 1],
-            [1, 1],
-        ],
-        [
-            [1, 1],
-            [5, 1],
-            [1, 1],
-        ],
-        [
-            [1, 1],
-            [3, 1],
-            [1, 1],
-        ],
-        [
-            [3, 1],
-            [4, 1],
-            [1, 1],
-        ],
-        [
-            [4, 1],
-            [1, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-        ],
-        [
-            [1, 1],
-            [1, 1],
-            [1, 1],
-        ],
-        [
-            [2, 1],
-            [3, 1],
-            [2, 1],
-            [4, 1],
-        ],
-        [
-            [8, 1],
-            [2, 1],
-            [7, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-            [7, 1],
-            [1, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-            [5, 1],
-            [1, 1],
-        ],
-        [
-            [3, 1],
-            [4, 1],
-            [2, 1],
-        ],
-        [
-            [6, 1],
-            [3, 1],
-        ],
-        [[9, 1]],
-        [
-            [3, 1],
-            [1, 1],
-        ],
-        [[3, 1]],
-    ];
-
-    // we define numbers left to right
-    const outerLeftNumbers = [
-        [[3, 1]],
-        [
-            [2, 1],
-            [1, 1],
-        ],
-        [
-            [3, 1],
-            [2, 1],
-        ],
-        [
-            [3, 1],
-            [1, 1],
-        ],
-        [
-            [4, 1],
-            [2, 1],
-        ],
-        [
-            [3, 1],
-            [1, 1],
-        ],
-        [
-            [4, 1],
-            [1, 1],
-        ],
-        [
-            [8, 1],
-            [5, 1],
-        ],
-        [
-            [4, 1],
-            [10, 1],
-        ],
-        [
-            [2, 1],
-            [2, 1],
-            [3, 1],
-            [1, 1],
-        ],
-        [
-            [1, 1],
-            [4, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-            [4, 1],
-        ],
-        [
-            [1, 1],
-            [2, 1],
-            [1, 1],
-            [1, 1],
-            [4, 1],
-        ],
-        [
-            [2, 1],
-            [1, 1],
-            [1, 1],
-            [1, 1],
-            [1, 1],
-        ],
-        [
-            [3, 1],
-            [1, 1],
-            [1, 1],
-            [2, 1],
-            [2, 1],
-        ],
-        [
-            [4, 1],
-            [4, 1],
-            [4, 1],
-        ],
-        [
-            [2, 1],
-            [2, 1],
-            [4, 1],
-            [1, 1],
-            [3, 1],
-        ],
-        [
-            [6, 1],
-            [4, 1],
-            [2, 1],
-        ],
-        [
-            [5, 1],
-            [7, 1],
-        ],
-        [
-            [4, 1],
-            [2, 1],
-        ],
-    ];
-*/
     const [nonogramList, setNonogramList] = useState<any[]>([]);
     const [nonogramWidth, changeWidth] = useState(5);
     const [nonogramHeight, changeHeight] = useState(5);
@@ -291,7 +62,7 @@ const App: React.FC = (): JSX.Element => {
             [1, 2],
         ],
     ]);
-    const [correctCounter, change] = useState(0);
+    const [correctCounter, change] = useState(12);
     const [userId, setUserId] = useState('');
     const [userAuthId, setUserAuthId] = useState('');
     const [nickname, changeNickname] = useState('');
@@ -338,6 +109,18 @@ const App: React.FC = (): JSX.Element => {
 
     const setNickname = () => {
         firebase.database().ref('User').child(userId).update({ nickname });
+        store.addNotification({
+            title: 'Successfully changed',
+            message: `${nickname}, really cool!`,
+            type: 'success',
+            container: 'top-left',
+            insert: 'top',
+            animationIn: ['animated', 'fadeIn'],
+            animationOut: ['animated', 'fadeOut'],
+            dismiss: {
+                duration: 3000,
+            },
+        });
     };
 
     const handleLogin = () => {
@@ -371,6 +154,18 @@ const App: React.FC = (): JSX.Element => {
                         setUserAuthId(usr.uid || '');
                         if (snapshot.exists()) {
                             console.log('welcome back');
+                            store.addNotification({
+                                title: 'Successfully logged in',
+                                message: 'Enjoy!',
+                                type: 'success',
+                                container: 'top-left',
+                                insert: 'top',
+                                animationIn: ['animated', 'fadeIn'],
+                                animationOut: ['animated', 'fadeOut'],
+                                dismiss: {
+                                    duration: 2000,
+                                },
+                            });
                         } else {
                             console.log('welcome aboard');
                             const newUser = {
@@ -407,6 +202,18 @@ const App: React.FC = (): JSX.Element => {
     }, [userId]);
 
     const handleSignup = () => {
+        store.addNotification({
+            title: 'Successfully signed up',
+            message: 'Welcome aboard!',
+            type: 'success',
+            container: 'top-left',
+            insert: 'top',
+            animationIn: ['animated', 'fadeIn'],
+            animationOut: ['animated', 'fadeOut'],
+            dismiss: {
+                duration: 2000,
+            },
+        });
         clearErrors();
         firebase
             .auth()
@@ -428,6 +235,18 @@ const App: React.FC = (): JSX.Element => {
     };
 
     const handleLogout = () => {
+        store.addNotification({
+            title: 'Successfully logged out',
+            message: `Good bye, ${nickname}!`,
+            type: 'info',
+            container: 'top-left',
+            insert: 'top',
+            animationIn: ['animated', 'fadeIn'],
+            animationOut: ['animated', 'fadeOut'],
+            dismiss: {
+                duration: 2000,
+            },
+        });
         changeNickname('');
         setUserId('');
         setUserAuthId('');
@@ -447,12 +266,6 @@ const App: React.FC = (): JSX.Element => {
             setNonogramList(newNonogramList);
         });
     }, []);
-
-    useEffect(() => {
-        change(
-            activeSolution.reduce((a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0), 0),
-        );
-    }, [activeSolution]);
 
     const outerLeftNumbersGenerator = (progress: number[][], wdth: number, hght: number) => {
         const outerLeftNumbers: number[][][] = [];
@@ -536,7 +349,18 @@ const App: React.FC = (): JSX.Element => {
                 // we increase/decrease the number of correct cells whether the cell is in solution or not
                 // eslint-disable-next-line no-alert
                 if (correctCounter + 1 === nonogramWidth * nonogramHeight)
-                    alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
+                    store.addNotification({
+                        title: 'CONGRATULATIONS',
+                        message: 'Nonogram is done!',
+                        type: 'success',
+                        container: 'top-left',
+                        insert: 'top',
+                        animationIn: ['animated', 'fadeIn'],
+                        animationOut: ['animated', 'fadeOut'],
+                        dismiss: {
+                            duration: 2000,
+                        },
+                    });
                 change(correctCounter + 1);
             } else if (
                 activeSolution[Math.floor(id / nonogramWidth)][id % nonogramWidth] === previousValue
@@ -544,7 +368,18 @@ const App: React.FC = (): JSX.Element => {
                 // this is case when we changed correct value of tile to incorrect
                 // eslint-disable-next-line no-alert
                 if (correctCounter - 1 === nonogramWidth * nonogramHeight)
-                    alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
+                    store.addNotification({
+                        title: 'CONGRATULATIONS',
+                        message: 'Nonogram is done!',
+                        type: 'success',
+                        container: 'top-left',
+                        insert: 'top',
+                        animationIn: ['animated', 'fadeIn'],
+                        animationOut: ['animated', 'fadeOut'],
+                        dismiss: {
+                            duration: 2000,
+                        },
+                    });
                 change(correctCounter - 1);
             }
         // for some reason next line alerted too late
@@ -562,8 +397,21 @@ const App: React.FC = (): JSX.Element => {
     const { user, isAuthenticated } = useAuth0();
 */
     const uploadNonogram = (w: number, h: number, s: string) => {
+        store.addNotification({
+            title: 'Successfully uploaded',
+            message: 'You can see your nonogram in public collection',
+            type: 'success',
+            container: 'top-left',
+            insert: 'top',
+            animationIn: ['animated', 'fadeIn'],
+            animationOut: ['animated', 'fadeOut'],
+            dismiss: {
+                duration: 2000,
+            },
+        });
         const nonogramRef = firebase.database().ref('Nonogram');
         const nonogram = {
+            enable: true,
             author: nickname || '?',
             width: w,
             height: h,
@@ -579,6 +427,7 @@ const App: React.FC = (): JSX.Element => {
         setNonogramList([
             ...nonogramList,
             {
+                enable: true,
                 author: nickname || '?',
                 width: w,
                 height: h,
@@ -600,52 +449,77 @@ const App: React.FC = (): JSX.Element => {
         console.log(id);
         const nonogram = nonogramList.find((x) => x.id === id); // TODO: toto musim zmenit lebo id nezodpoveda riadku
         console.log(nonogram);
-        changeActiveNonogramId(id);
         const nonogramMatrix = stringToSolution(nonogram.solution, nonogram.width, nonogram.height);
+        // const counter = 0;
+        if (userId) {
+            firebase
+                .database()
+                .ref(`User/${userId}/progresses/${id}`)
+                .once('value', (snapshot) => {
+                    if (snapshot.exists()) {
+                        let counter = 0;
+                        console.log(nonogramMatrix);
+                        makeNewProgress(() => {
+                            const array: number[][] = [];
+                            const sol = nonogramMatrix.flat().toString().replace(/,/g, '');
+                            for (let i = 0; i < nonogram.height; i += 1) {
+                                array.push([]);
+                                for (let j = 0; j < nonogram.width; j += 1) {
+                                    const clicked: number = snapshot.val()[i * nonogram.width + j];
+                                    array[i].push(clicked);
+                                    if (clicked.toString() === sol[i * nonogram.width + j]) {
+                                        counter += 1;
+                                    }
+                                }
+                            }
+                            change(counter);
+                            return array;
+                        });
+                    } else {
+                        console.log('alert2haha');
+                        makeNewProgress(() => {
+                            const array: number[][] = [];
+                            for (let i = 0; i < nonogram.height; i += 1) {
+                                array.push([]);
+                                for (let j = 0; j < nonogram.width; j += 1) {
+                                    array[i].push(0);
+                                }
+                            }
+                            change(
+                                nonogramMatrix.reduce(
+                                    (a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0),
+                                    0,
+                                ),
+                            );
+                            return array;
+                        });
+                    }
+                });
+        } else {
+            console.log('alert2haha');
+            makeNewProgress(() => {
+                const array: number[][] = [];
+                for (let i = 0; i < nonogram.height; i += 1) {
+                    array.push([]);
+                    for (let j = 0; j < nonogram.width; j += 1) {
+                        array[i].push(0);
+                    }
+                }
+                change(
+                    nonogramMatrix.reduce(
+                        (a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0),
+                        0,
+                    ),
+                );
+                return array;
+            });
+        }
+        changeActiveNonogramId(id);
         changeWidth(nonogram.width);
         changeHeight(nonogram.height);
-
-        firebase
-            .database()
-            .ref(`User/${userId}/progresses/${id}`)
-            .once('value', (snapshot) => {
-                console.log(snapshot.exists());
-                if (snapshot.exists()) {
-                    console.log('alert1');
-                    makeNewProgress(() => {
-                        console.log(snapshot.val());
-                        const array: number[][] = [];
-                        for (let i = 0; i < nonogram.height; i += 1) {
-                            array.push([]);
-                            for (let j = 0; j < nonogram.width; j += 1) {
-                                array[i].push(snapshot.val()[i * nonogram.width + j]);
-                            }
-                        }
-                        return array;
-                    });
-                    // and also we want all Tiles to be properly clicked, so we handel this deeper in Tile section
-                } else {
-                    console.log('alert2');
-
-                    makeNewProgress(() => {
-                        const array: number[][] = [];
-                        for (let i = 0; i < nonogram.height; i += 1) {
-                            array.push([]);
-                            for (let j = 0; j < nonogram.width; j += 1) {
-                                array[i].push(0);
-                            }
-                        }
-                        return array;
-                    });
-                }
-            });
-
         changeSolution(nonogramMatrix);
         changeUpper(outerUpperNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
         changeLeft(outerLeftNumbersGenerator(nonogramMatrix, nonogram.width, nonogram.height));
-        change(
-            nonogramMatrix.reduce((a, b) => a + b.reduce((c, d) => (d === 0 ? c + 1 : c), 0), 0),
-        );
         changeActiveMenu(0);
     };
 
@@ -653,7 +527,11 @@ const App: React.FC = (): JSX.Element => {
         <div className="fadeIn page-container">
             <div className="content-wrap">
                 <Top changeSite={clickMenu} active={activeMenu} />
-                <div id="activeAnnouncement">Active: {nickname || 'anonym'}</div>
+                <div id="activeAnnouncement" className="notClickable">
+                    Active: {nickname || 'anonym'}
+                </div>
+
+                <ReactNotification />
                 {activeMenu === 0 && (
                     <div className="showSite">
                         <Board
@@ -666,6 +544,24 @@ const App: React.FC = (): JSX.Element => {
                             makeCreationProgress={() => null}
                             currentProgress={currentProgress}
                             makeProgress={makeProgress}
+                            boardCreator={false}
+                        />
+                        <input
+                            className="defaultButton"
+                            type="submit"
+                            name="resetBtn"
+                            value="Reset Nonogram"
+                            onClick={() => {
+                                const progressInit: number[][] = [[]];
+                                for (let i = 0; i < activeSolution.length; i += 1) {
+                                    progressInit.push([]);
+                                    for (let j = 0; j < activeSolution[0].length; j += 1) {
+                                        progressInit[i].push(0);
+                                    }
+                                }
+                                makeProgress(progressInit);
+                                changeActiveMenu(3);
+                            }}
                         />
                     </div>
                 )}
@@ -676,7 +572,10 @@ const App: React.FC = (): JSX.Element => {
                 )}
                 {activeMenu === 2 && (
                     <div className="showSite">
-                        <BoardCreator uploadNonogram={uploadNonogram} />
+                        <BoardCreator
+                            uploadNonogram={uploadNonogram}
+                            showUploadBtn={userId !== ''}
+                        />
                     </div>
                 )}
                 {activeMenu === 3 && (

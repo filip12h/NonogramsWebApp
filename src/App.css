@@ -16,12 +16,20 @@ h1 a:hover {
 
 h2 {
     font-weight: 200;
-    font-size: 30;
+    font-size: 30px;
     text-align: center;
     margin: 0 0 20px 0;
 }
+
+h3 {
+    font-weight: 250;
+    font-size: 25px;
+
+    margin: 20px 0;
+}
 .menubar {
     width: 80%;
+    min-width: 400px;
     margin: 0 10% 30px 10%;
     font-size: 18px;
     overflow: auto;
@@ -31,12 +39,16 @@ h2 {
     border: double #876;
     border-radius: 15px;
 }
+.menubar_mobile {
+    display: none;
+}
 
 .menubar a {
-    height: 100%;
+    height: 35px;
     vertical-align: middle;
     width: 25%;
-    padding: 10px 0 10px 0;
+    min-width: 100px;
+    padding: 10px 0;
     text-decoration: none;
     text-align: center;
     display: inline-block;
@@ -64,6 +76,7 @@ a.active {
 }
 
 .nonogramList a {
+    height: 40px;
     padding: 20px 0;
     vertical-align: middle;
     width: 100%;
@@ -80,7 +93,9 @@ a.active {
 }
 
 .nonogramList {
-    margin-bottom: 50px;
+    width: 100%;
+    min-width: 500px;
+    margin: 50px auto;
     overflow: auto;
     border: 3px black double;
     border-radius: 10px;
@@ -299,6 +314,7 @@ p {
 
 .profile input {
     width: 100%;
+    min-width: 200px;
     background-color: rgb(236, 235, 233);
     height: 35px;
     font-size: 22px;
@@ -308,6 +324,7 @@ p {
 .profile button {
     height: 35px;
     width: 100%;
+    min-width: 100px;
     margin-top: 15px;
     border: 2px rgb(195, 187, 147) solid;
     background-color: rgb(195, 187, 147);
@@ -325,6 +342,7 @@ p {
     font-size: 15px;
     text-align: center;
     width: 40%;
+    min-width: 96px;
     margin: auto;
     background-color: rgb(238, 232, 232);
     border: 2px rgb(238, 232, 232) solid;
@@ -359,7 +377,7 @@ p {
 }
 
 .boxes {
-    width: 7%;
+    width: 25px;
     background-color: rgb(236, 235, 233);
     height: 20px;
     font-size: 18px;
@@ -371,7 +389,8 @@ p {
 .genCompButton {
     height: 44px;
     width: 20%;
-    margin-right: 35%;
+    min-width: fit-content;
+    margin-right: auto;
     border: 2px rgb(195, 187, 147) solid;
     background-color: rgb(195, 187, 147);
     transition: 1s;
@@ -387,6 +406,7 @@ p {
 .defaultButton {
     height: 44px;
     width: 20%;
+    min-width: fit-content;
     margin-left: 40%;
     border: 2px rgb(195, 187, 147) solid;
     background-color: rgb(195, 187, 147);
@@ -435,4 +455,123 @@ p {
 .fadeIn {
     animation-name: fi;
     animation-duration: 0.8s;
+}
+
+.notClickable {
+    cursor: default;
+}
+
+.aboutNonograms div {
+    margin: 15px auto;
+    width: 80%;
+}
+.aboutNonograms img {
+    margin: 10px 30%;
+    width: 40%;
+}
+
+@media all and (max-width: 700px) {
+    body {
+        width: 90vw;
+        padding: 0;
+        margin-left: 10px;
+    }
+
+    h1 {
+        font-size: 10vw;
+        text-align: center;
+    }
+    .menubar_mobile {
+        display: inline-block;
+        margin: 0 10%;
+        width: 80%;
+        min-width: 230px;
+        font-size: 18px;
+        overflow: auto;
+        padding: 0;
+        text-align: center;
+        font-weight: 300;
+        border: double #876;
+        border-radius: 15px;
+    }
+    .menubar_mobile a {
+        min-width: 40px;
+        height: 25px;
+        display: inline-block;
+        vertical-align: middle;
+        width: 25%;
+        padding: 10px 0;
+        text-decoration: none;
+        text-align: center;
+        transition: 0.7s;
+    }
+    .menubar_mobile li {
+        margin: 0;
+        width: 25%;
+        display: inline;
+    }
+    .menubar {
+        display: none;
+    }
+    .nonogramList div {
+        margin: 0;
+        width: 33.33%;
+        float: left;
+        text-align: center;
+        outline: 1px rgb(117, 117, 117) dotted;
+    }
+
+    .nonogramList {
+        min-width: 300px;
+        margin: 50px auto;
+        overflow: auto;
+        border: 3px black double;
+        border-radius: 10px;
+    }
+    .profile {
+        width: 80%;
+    }
+
+    .createContainer {
+        margin: 0 auto 20px auto;
+        width: 90%;
+        text-align: center;
+        display: inline;
+    }
+
+    .inputContainer {
+        float: left;
+        width: 40%;
+        min-width: 80px;
+        margin-left: auto;
+        outline: 0px black solid;
+        text-align: right;
+    }
+
+    .boxes {
+        width: 25px;
+        background-color: rgb(236, 235, 233);
+        height: 20px;
+        font-size: 18px;
+        border: 0px black solid;
+        outline: 0;
+        text-align: right;
+    }
+
+    .genCompButton {
+        height: 44px;
+        width: 20%;
+        min-width: fit-content;
+        border: 2px rgb(195, 187, 147) solid;
+        background-color: rgb(195, 187, 147);
+        transition: 1s;
+        font-size: 18px;
+        cursor: pointer;
+        margin-right: 0;
+    }
+
+    .genCompButton:hover {
+        border: 2px rgb(195, 187, 147) solid;
+        background-color: rgb(235, 225, 178);
+    }
 }
