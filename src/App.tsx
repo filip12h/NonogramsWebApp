@@ -568,11 +568,28 @@ const App: React.FC = (): JSX.Element => {
             width: w,
             height: h,
             solution: s,
+            usedColors: s
+                .split('')
+                .filter(function (item, pos, self) {
+                    return self.indexOf(item) === pos;
+                })
+                .join(''),
         };
         nonogramRef.push(nonogram);
         setNonogramList([
             ...nonogramList,
-            { author: nickname || '?', width: w, height: h, solution: s },
+            {
+                author: nickname || '?',
+                width: w,
+                height: h,
+                solution: s,
+                usedColors: s
+                    .split('')
+                    .filter(function (item, pos, self) {
+                        return self.indexOf(item) === pos;
+                    })
+                    .join(''),
+            },
         ]);
         changeActiveMenu(3);
     };
