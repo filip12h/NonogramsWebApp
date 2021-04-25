@@ -613,11 +613,12 @@ const App: React.FC = (): JSX.Element => {
                 if (snapshot.exists()) {
                     console.log('alert1');
                     makeNewProgress(() => {
+                        console.log(snapshot.val());
                         const array: number[][] = [];
                         for (let i = 0; i < nonogram.height; i += 1) {
                             array.push([]);
                             for (let j = 0; j < nonogram.width; j += 1) {
-                                array[i].push(snapshot.val()[i * nonogramWidth + j]);
+                                array[i].push(snapshot.val()[i * nonogram.width + j]);
                             }
                         }
                         return array;
