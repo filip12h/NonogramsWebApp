@@ -31,6 +31,7 @@
 ## Najbližšie obdobie:
     - filtrovanie krížoviek
     - vyhľadávanie iných užívateľov, príp.aj označovanie ako Friendov
+    - zabezpečiť aby sa ukladali do progresu aj preškrtnuté políčka
     
 
 
