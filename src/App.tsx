@@ -392,6 +392,20 @@ const App: React.FC = (): JSX.Element => {
 
     const clickMenu = (i: number) => {
         changeActiveMenu(i);
+        if (i === 2 && !userId) {
+            store.addNotification({
+                title: "Don't wanna log in?",
+                message: "You won't be able to upload the nonogram",
+                type: 'warning',
+                container: 'top-left',
+                insert: 'top',
+                animationIn: ['animated', 'fadeIn'],
+                animationOut: ['animated', 'fadeOut'],
+                dismiss: {
+                    duration: 5000,
+                },
+            });
+        }
     };
     /*
     const { user, isAuthenticated } = useAuth0();
@@ -526,7 +540,11 @@ const App: React.FC = (): JSX.Element => {
     return (
         <div className="fadeIn page-container">
             <div className="content-wrap">
-                <Top changeSite={clickMenu} active={activeMenu} />
+                <Top
+                    changeSite={clickMenu}
+                    active={activeMenu}
+                    isLoggedIn={userAuthId.length > 0}
+                />
                 <div id="activeAnnouncement" className="notClickable">
                     Active: {nickname || 'anonym'}
                 </div>

@@ -184,15 +184,11 @@ table button:hover {
     background-size: 30px;
 }
 .clicked8 {
-    background-image: url('pics/pink.png');
+    background-image: url('pics/grey.png');
     background-size: 30px;
 }
 .clicked9 {
     background-image: url('pics/teal.png');
-    background-size: 30px;
-}
-.clicked10 {
-    background-image: url('pics/brown.png');
     background-size: 30px;
 }
 

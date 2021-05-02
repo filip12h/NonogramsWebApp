@@ -93,7 +93,7 @@ const Board: React.FC<BoardProps> = ({
 }) => {
     const [selectedColor, changeColor] = useState(
         // default value is first non-blank color
-        parseInt(Array.from(new Set(solution.flat())).sort().toString()[2], 10),
+        boardCreator ? 1 : parseInt(Array.from(new Set(solution.flat())).sort().toString()[2], 10),
     );
 
     const clickOnCell = (id: number, clicked: number) => {

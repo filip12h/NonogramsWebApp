@@ -5,9 +5,10 @@ import React from 'react';
 type TopProps = {
     active: number;
     changeSite: (i: number) => void;
+    isLoggedIn: boolean;
 };
 
-const Top: React.FC<TopProps> = ({ changeSite, active }) => {
+const Top: React.FC<TopProps> = ({ changeSite, active, isLoggedIn }) => {
     const clickMenu = (i: number) => {
         changeSite(i);
     };
@@ -68,7 +69,7 @@ const Top: React.FC<TopProps> = ({ changeSite, active }) => {
                         onKeyDown={() => clickMenu(4)}
                         className={active === 4 ? 'active' : ''}
                     >
-                        Login / My Profile
+                        {isLoggedIn ? 'My Profile' : 'Log in'}
                     </a>
                 </li>
             </ul>
