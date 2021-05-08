@@ -16,6 +16,8 @@ type ProfileProps = {
     nickname: string;
     setNickname: (a: string) => void;
     changeNickname: (a: string) => void;
+    nonogramList: any[];
+    showBoard: (id: string) => void;
 };
 
 const Profile: React.FC<ProfileProps> = ({
@@ -34,6 +36,8 @@ const Profile: React.FC<ProfileProps> = ({
     nickname,
     setNickname,
     changeNickname,
+    nonogramList,
+    showBoard,
 }) => {
     /*
 <img src={user.picture} alt={user.name} />
@@ -69,6 +73,26 @@ const Profile: React.FC<ProfileProps> = ({
                 <button type="button" onClick={() => handleLogout()}>
                     logout
                 </button>
+                <div className="nonogramList">
+                    {nonogramList.map((row) => {
+                        return (
+                            // IDcko neskor zmazem
+                            /* eslint-disable */
+                            row.author == 'carlmartello' && (
+                                <div>
+                                    <a
+                                        role="link"
+                                        tabIndex={0}
+                                        onClick={() => showBoard(row.id)}
+                                        onKeyDown={() => showBoard(row.id)}
+                                    >
+                                        Author: {row.author || '?'} <br /> {row.width}x{row.height}
+                                    </a>
+                                </div>
+                            )
+                        );
+                    })}
+                </div>
             </div>
         </>
     ) : (

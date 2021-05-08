@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState } from 'react';
 import ReactNotification, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
@@ -254,16 +256,29 @@ const App: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
+        const userRef = firebase.database().ref('User');
         const nonogramRef = firebase.database().ref('Nonogram');
         nonogramRef.on('value', (snapshot) => {
             const nonograms = snapshot.val();
             const newNonogramList: any[] = [];
+            userRef.on('value', (snap) => {
+                const users = snap.val();
+                console.log(users);
+                newNonogramList.length = 0;
+                for (const id in nonograms) {
+                    for (const aut in users) {
+                        if (nonograms[id].author === aut) {
+                            const a = users[aut].nickname;
+                            newNonogramList.push({ id, a, ...nonograms[id] });
+                        }
+                    }
+                }
+            });
             /* eslint-disable */
-            for (const id in nonograms) {
-                newNonogramList.push({ id, ...nonograms[id] });
-            }
+
             /* eslint-enable */
             setNonogramList(newNonogramList);
+            console.log(newNonogramList);
         });
     }, []);
 
@@ -619,6 +634,8 @@ const App: React.FC = (): JSX.Element => {
                             nickname={nickname}
                             setNickname={setNickname}
                             changeNickname={changeNickname}
+                            nonogramList={nonogramList}
+                            showBoard={showBoard}
                         />
                     </div>
                 )}

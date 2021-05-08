@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from '../util/firebase';
 
 type ListNonogramsProps = {
     nonogramList: any[];
@@ -10,9 +11,18 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({ showBoard, nonogramList }
     return (
         <div className="nonogramList">
             {nonogramList.map((row) => {
+                let nick =
+                    firebase
+                        .database()
+                        .ref(`User/${row.author}`)
+                        .once('value', (snapshot) => {
+                            return snapshot.val().nickname;
+                        })
+                        .toString() || '?';
                 return (
                     // IDcko neskor zmazem
                     // eslint-disable-next-line react/jsx-key
+                    // TODO tu su nejake problemy s databazou
                     row.enable && (
                         <div>
                             <a
@@ -21,7 +31,8 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({ showBoard, nonogramList }
                                 onClick={() => showBoard(row.id)}
                                 onKeyDown={() => showBoard(row.id)}
                             >
-                                Author: {row.author || '?'} <br /> {row.width}x{row.height}
+                                Author: {row.a}
+                                <br /> {row.width}x{row.height}
                             </a>
                         </div>
                     )
