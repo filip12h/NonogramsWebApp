@@ -101,6 +101,37 @@ a.active {
     border-radius: 10px;
 }
 
+.sorter a:hover {
+    background-color: #d6bf9c;
+    cursor: pointer;
+}
+
+.sorter a {
+    height: 20px;
+    padding: 0;
+    vertical-align: middle;
+    width: 100%;
+    text-decoration: none;
+    transition: 0.7s;
+    display: inline-block;
+}
+.sorter span {
+    margin: 0;
+    width: 50%;
+    float: left;
+    text-align: center;
+    outline: 1px rgb(117, 117, 117) dotted;
+}
+
+.sorter {
+    width: 20%;
+    min-width: 200px;
+    margin: 10px auto 10px 0;
+    overflow: auto;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
 body {
     background-image: url('pics/background.jpg');
     background-repeat: no-repeat;
