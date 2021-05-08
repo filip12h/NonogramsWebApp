@@ -13,9 +13,11 @@ import Profile from './components/Profile';
 import AboutNonograms from './components/AboutNonograms';
 import BoardCreator from './components/BoardCreator';
 import ListNonograms from './components/ListNonograms';
+import FindUser from './components/FindUser';
 import firebase from './util/firebase';
 
 const App: React.FC = (): JSX.Element => {
+    const [userList, setUserList] = useState<any[]>([]);
     const [nonogramList, setNonogramList] = useState<any[]>([]);
     const [nonogramWidth, changeWidth] = useState(5);
     const [nonogramHeight, changeHeight] = useState(5);
@@ -263,22 +265,23 @@ const App: React.FC = (): JSX.Element => {
             const newNonogramList: any[] = [];
             userRef.on('value', (snap) => {
                 const users = snap.val();
+                const newUserList: any[] = [];
                 console.log(users);
                 newNonogramList.length = 0;
-                for (const id in nonograms) {
-                    for (const aut in users) {
+                for (const aut in users) {
+                    for (const id in nonograms) {
                         if (nonograms[id].author === aut) {
                             const a = users[aut].nickname;
                             newNonogramList.push({ id, a, ...nonograms[id] });
                         }
                     }
+                    newUserList.push({ ...users[aut] });
                 }
+                setUserList(newUserList);
             });
             /* eslint-disable */
 
-            /* eslint-enable */
             setNonogramList(newNonogramList);
-            console.log(newNonogramList);
         });
     }, []);
 
@@ -422,13 +425,11 @@ const App: React.FC = (): JSX.Element => {
             });
         }
     };
-    /*
-    const { user, isAuthenticated } = useAuth0();
-*/
+
     const uploadNonogram = (w: number, h: number, s: string) => {
         store.addNotification({
             title: 'Successfully uploaded',
-            message: 'You can see your nonogram in public collection',
+            message: 'Wait until administrator will approve it',
             type: 'success',
             container: 'top-left',
             insert: 'top',
@@ -440,7 +441,7 @@ const App: React.FC = (): JSX.Element => {
         });
         const nonogramRef = firebase.database().ref('Nonogram');
         const nonogram = {
-            enable: true,
+            enable: false,
             author: nickname || '?',
             width: w,
             height: h,
@@ -456,7 +457,7 @@ const App: React.FC = (): JSX.Element => {
         setNonogramList([
             ...nonogramList,
             {
-                enable: true,
+                enable: false,
                 author: nickname || '?',
                 width: w,
                 height: h,
@@ -634,6 +635,15 @@ const App: React.FC = (): JSX.Element => {
                             nickname={nickname}
                             setNickname={setNickname}
                             changeNickname={changeNickname}
+                            nonogramList={nonogramList}
+                            showBoard={showBoard}
+                        />
+                    </div>
+                )}
+                {activeMenu === 5 && (
+                    <div className="showSite">
+                        <FindUser
+                            userList={userList}
                             nonogramList={nonogramList}
                             showBoard={showBoard}
                         />

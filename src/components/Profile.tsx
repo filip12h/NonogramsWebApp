@@ -73,12 +73,14 @@ const Profile: React.FC<ProfileProps> = ({
                 <button type="button" onClick={() => handleLogout()}>
                     logout
                 </button>
+
                 <div className="nonogramList">
                     {nonogramList.map((row) => {
                         return (
                             // IDcko neskor zmazem
                             /* eslint-disable */
-                            row.author == 'carlmartello' && (
+
+                            row.a == nickname && (
                                 <div>
                                     <a
                                         role="link"
@@ -86,7 +88,7 @@ const Profile: React.FC<ProfileProps> = ({
                                         onClick={() => showBoard(row.id)}
                                         onKeyDown={() => showBoard(row.id)}
                                     >
-                                        Author: {row.author || '?'} <br /> {row.width}x{row.height}
+                                        Author: {row.a || '?'} <br /> {row.width}x{row.height}
                                     </a>
                                 </div>
                             )

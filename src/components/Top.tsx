@@ -72,6 +72,18 @@ const Top: React.FC<TopProps> = ({ changeSite, active, isLoggedIn }) => {
                         {isLoggedIn ? 'My Profile' : 'Log in'}
                     </a>
                 </li>
+
+                <li>
+                    <a
+                        role="link"
+                        tabIndex={0}
+                        onClick={() => clickMenu(5)}
+                        onKeyDown={() => clickMenu(5)}
+                        className={active === 5 ? 'active' : ''}
+                    >
+                        Find User
+                    </a>
+                </li>
             </ul>
             <ul className="menubar_mobile">
                 <li>
@@ -118,6 +130,18 @@ const Top: React.FC<TopProps> = ({ changeSite, active, isLoggedIn }) => {
                         className={active === 4 ? 'active' : ''}
                     >
                         Profile
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        role="link"
+                        tabIndex={0}
+                        onClick={() => clickMenu(5)}
+                        onKeyDown={() => clickMenu(5)}
+                        className={active === 5 ? 'active' : ''}
+                    >
+                        Find User
                     </a>
                 </li>
             </ul>

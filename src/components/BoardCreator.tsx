@@ -35,7 +35,7 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram, showUploadB
 
     const changeWidthValue = (val: string) => {
         // eslint-disable-next-line radix
-        changeWidthInput(Math.min(Math.abs(parseInt(val)), 100) || 0);
+        changeWidthInput(Math.min(Math.abs(parseInt(val)), 35) || 0);
         clickComputeHandler();
         resizeTable(true);
         generate(false);
@@ -43,7 +43,7 @@ const BoardCreator: React.FC<BoardCreatorProps> = ({ uploadNonogram, showUploadB
 
     const changeHeightValue = (val: string) => {
         // eslint-disable-next-line radix
-        changeHeightInput(Math.min(Math.abs(parseInt(val)), 100) || 0);
+        changeHeightInput(Math.min(Math.abs(parseInt(val)), 50) || 0);
         clickComputeHandler();
         resizeTable(true);
         generate(false);
