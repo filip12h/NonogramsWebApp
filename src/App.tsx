@@ -19,6 +19,7 @@ import firebase from './util/firebase';
 const App: React.FC = (): JSX.Element => {
     const [userList, setUserList] = useState<any[]>([]);
     const [nonogramList, setNonogramList] = useState<any[]>([]);
+    const [usersProgresses, setUsersProgresses] = useState<any[]>([]);
     const [nonogramWidth, changeWidth] = useState(5);
     const [nonogramHeight, changeHeight] = useState(5);
     const [activeSolution, changeSolution] = useState([
@@ -194,17 +195,6 @@ const App: React.FC = (): JSX.Element => {
         });
     };
 
-    useEffect(() => {
-        if (userId)
-            firebase
-                .database()
-                .ref('User')
-                .child(userId)
-                .once('value', (snap) => {
-                    changeNickname(snap.val().nickname);
-                });
-    }, [userId]);
-
     const handleSignup = () => {
         store.addNotification({
             title: 'Successfully signed up',
@@ -362,11 +352,20 @@ const App: React.FC = (): JSX.Element => {
 
     const checkCorrectness = (id: number, previousValue: number, clicked: number) => {
         // we need to prevent cases when we cross out empty space correctly. That times the value is not changed
+        for (const key in usersProgresses) {
+            if (key === activeNonogramId) {
+                const newProgresses = usersProgresses;
+                newProgresses[key] = '01';
+                setUsersProgresses(newProgresses);
+                console.log(newProgresses);
+            }
+        }
+
         if (previousValue !== clicked)
             if (activeSolution[Math.floor(id / nonogramWidth)][id % nonogramWidth] === clicked) {
                 // we increase/decrease the number of correct cells whether the cell is in solution or not
                 // eslint-disable-next-line no-alert
-                if (correctCounter + 1 === nonogramWidth * nonogramHeight)
+                if (correctCounter + 1 === nonogramWidth * nonogramHeight) {
                     store.addNotification({
                         title: 'CONGRATULATIONS',
                         message: 'Nonogram is done!',
@@ -379,6 +378,15 @@ const App: React.FC = (): JSX.Element => {
                             duration: 2000,
                         },
                     });
+                    for (const key in usersProgresses) {
+                        if (key === activeNonogramId) {
+                            const newProgresses = usersProgresses;
+                            newProgresses[key] = activeSolution.flat().toString().replace(/,/g, '');
+                            setUsersProgresses(newProgresses);
+                            console.log(newProgresses);
+                        }
+                    }
+                }
                 change(correctCounter + 1);
             } else if (
                 activeSolution[Math.floor(id / nonogramWidth)][id % nonogramWidth] === previousValue
@@ -403,6 +411,18 @@ const App: React.FC = (): JSX.Element => {
         // for some reason next line alerted too late
         // if (correct === width * height) alert('CONGRATULATIONS!\nNONOGRAM IS DONE');
     };
+
+    useEffect(() => {
+        if (userId)
+            firebase
+                .database()
+                .ref('User')
+                .child(userId)
+                .once('value', (snap) => {
+                    changeNickname(snap.val().nickname);
+                    setUsersProgresses(snap.val().progresses);
+                });
+    }, [userId, currentProgress]);
 
     // const [correct, change] = useState(numOfCorrectTiles);
     //             <div>{correctCounter}</div>
@@ -440,9 +460,21 @@ const App: React.FC = (): JSX.Element => {
             },
         });
         const nonogramRef = firebase.database().ref('Nonogram');
+        const date: Date = new Date();
+        const dateFormat: String =
+            date.getFullYear().toString() +
+            '/' +
+            (date.getMonth().toString().length === 1
+                ? '0' + (date.getMonth() + 1).toString()
+                : (date.getMonth() + 1).toString()) +
+            '/' +
+            (date.getDate().toString().length === 1
+                ? '0' + date.getDate().toString()
+                : date.getDate().toString());
         const nonogram = {
+            dateCreated: dateFormat,
             enable: false,
-            author: nickname || '?',
+            author: userId || '?',
             width: w,
             height: h,
             solution: s,
@@ -457,8 +489,9 @@ const App: React.FC = (): JSX.Element => {
         setNonogramList([
             ...nonogramList,
             {
+                dateCreated: dateFormat,
                 enable: false,
-                author: nickname || '?',
+                author: userId || '?',
                 width: w,
                 height: h,
                 solution: s,
@@ -595,6 +628,18 @@ const App: React.FC = (): JSX.Element => {
                                 }
                                 makeProgress(progressInit);
                                 changeActiveMenu(3);
+                                firebase
+                                    .database()
+                                    .ref(`User/${userId}/progresses/${activeNonogramId}`)
+                                    .remove();
+                                for (const key in usersProgresses) {
+                                    if (key === activeNonogramId) {
+                                        const newProgress = usersProgresses;
+                                        delete newProgress[key];
+                                        setUsersProgresses(newProgress);
+                                        console.log(newProgress);
+                                    }
+                                }
                             }}
                         />
                     </div>
@@ -614,7 +659,11 @@ const App: React.FC = (): JSX.Element => {
                 )}
                 {activeMenu === 3 && (
                     <div className="showSite">
-                        <ListNonograms showBoard={showBoard} nonogramList={nonogramList} />
+                        <ListNonograms
+                            usersProgresses={usersProgresses || []}
+                            showBoard={showBoard}
+                            nonogramList={nonogramList}
+                        />
                     </div>
                 )}
                 {activeMenu === 4 && (

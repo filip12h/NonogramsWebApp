@@ -141,7 +141,7 @@ const Top: React.FC<TopProps> = ({ changeSite, active, isLoggedIn }) => {
                         onKeyDown={() => clickMenu(5)}
                         className={active === 5 ? 'active' : ''}
                     >
-                        Find User
+                        Users
                     </a>
                 </li>
             </ul>

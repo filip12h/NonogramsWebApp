@@ -74,7 +74,7 @@ const Profile: React.FC<ProfileProps> = ({
                     logout
                 </button>
 
-                <div className="nonogramList">
+                <div className="myNonogramList">
                     {nonogramList.map((row) => {
                         return (
                             // IDcko neskor zmazem

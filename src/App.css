@@ -29,7 +29,7 @@ h3 {
 }
 .menubar {
     width: 90%;
-    min-width: 400px;
+    min-width: 500px;
     margin: 0 5% 30px 5%;
     font-size: 18px;
     overflow: auto;
@@ -57,7 +57,7 @@ h3 {
 
 .menubar li {
     margin: 0;
-    width: 25%;
+    width: 20%;
     display: inline;
 }
 
@@ -66,8 +66,48 @@ li a:hover {
     cursor: pointer;
 }
 
-a.active {
+a.active,
+.sorter.active {
     background: radial-gradient(circle at top, #d8bc92, transparent);
+}
+
+.sorter .active {
+    padding: 5px 0;
+}
+
+.sorter span a {
+    padding: 5px 0;
+}
+
+.myNonogramList a:hover {
+    background-color: #d6bf9c;
+    cursor: pointer;
+}
+
+.myNonogramList a {
+    height: fit-content;
+    padding: 5px 0;
+    vertical-align: middle;
+    width: 100%;
+    text-decoration: none;
+    transition: 0.7s;
+    display: inline-block;
+}
+.myNonogramList div {
+    margin: 0;
+    width: 50%;
+    float: left;
+    text-align: center;
+    outline: 1px rgb(117, 117, 117) dotted;
+}
+
+.myNonogramList {
+    width: 100%;
+    min-width: 100px;
+    margin: 50px auto;
+    overflow: auto;
+    border: 3px black double;
+    border-radius: 10px;
 }
 
 .nonogramList a:hover {
@@ -76,8 +116,8 @@ a.active {
 }
 
 .nonogramList a {
-    height: 40px;
-    padding: 20px 0;
+    height: fit-content;
+    padding: 5px 0;
     vertical-align: middle;
     width: 100%;
     text-decoration: none;
@@ -95,7 +135,7 @@ a.active {
 .nonogramList {
     width: 100%;
     min-width: 500px;
-    margin: 50px auto;
+    margin-bottom: 20px;
     overflow: auto;
     border: 3px black double;
     border-radius: 10px;
@@ -221,6 +261,12 @@ table button:hover {
 .clicked9 {
     background-image: url('pics/teal.png');
     background-size: 30px;
+}
+
+.tenthwidth {
+    width: 10%;
+    text-align: center;
+    float: left;
 }
 
 .color1 {
@@ -526,7 +572,7 @@ p {
         height: 25px;
         display: inline-block;
         vertical-align: middle;
-        width: 25%;
+        width: 20%;
         padding: 10px 0;
         text-decoration: none;
         text-align: center;
@@ -534,13 +580,14 @@ p {
     }
     .menubar_mobile li {
         margin: 0;
-        width: 25%;
+        width: 20%;
         display: inline;
     }
     .menubar {
         display: none;
     }
     .nonogramList div {
+        height: 130px;
         margin: 0;
         width: 33.33%;
         float: left;
@@ -600,5 +647,53 @@ p {
     .genCompButton:hover {
         border: 2px rgb(195, 187, 147) solid;
         background-color: rgb(235, 225, 178);
+    }
+}
+
+@media all and (min-width: 1600px) {
+    aside {
+        position: fixed;
+        left: 10%;
+        text-align: right;
+    }
+}
+
+@media all and (max-width: 1599px) {
+    aside .range {
+        width: 30%;
+        float: left;
+    }
+    aside .range input {
+        width: 90%;
+    }
+    aside .sortContainer {
+        margin-left: 5%;
+        width: 25%;
+        float: left;
+    }
+    aside .sorter {
+        margin: 5px;
+        min-width: 190px;
+    }
+    aside .filterContainer {
+        width: 35%;
+        float: left;
+        text-align: right;
+        margin-left: 5%;
+    }
+    #activeAnnouncement {
+        width: fit-content;
+    }
+    .tenthwidth {
+        width: 20%;
+    }
+}
+
+.colors {
+    margin-bottom: 30px;
+}
+@media all and (max-width: 600px) {
+    aside .filterContainer {
+        width: 100%;
     }
 }
