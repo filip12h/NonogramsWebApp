@@ -642,6 +642,50 @@ const App: React.FC = (): JSX.Element => {
                                 }
                             }}
                         />
+                        {userId === '-MYbrKq-_MgSI5GHUvRh' ? (
+                            <>
+                                <input
+                                    className="defaultButton"
+                                    type="submit"
+                                    name="completeBtn"
+                                    value="Complete Nonogram"
+                                    onClick={() => {
+                                        makeProgress(activeSolution);
+                                        changeActiveMenu(3);
+                                    }}
+                                />
+                                <input
+                                    className="defaultButton"
+                                    type="submit"
+                                    name="enableBtn"
+                                    value="Enable Nonogram"
+                                    onClick={() => {
+                                        firebase
+                                            .database()
+                                            .ref(`Nonogram/${activeNonogramId}`)
+                                            .update({ enable: true });
+
+                                        changeActiveMenu(3);
+                                    }}
+                                />
+                                <input
+                                    className="defaultButton"
+                                    type="submit"
+                                    name="disableBtn"
+                                    value="Disable Nonogram"
+                                    onClick={() => {
+                                        firebase
+                                            .database()
+                                            .ref(`Nonogram/${activeNonogramId}`)
+                                            .update({ enable: false });
+
+                                        changeActiveMenu(3);
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 )}
                 {activeMenu === 1 && (
@@ -660,6 +704,7 @@ const App: React.FC = (): JSX.Element => {
                 {activeMenu === 3 && (
                     <div className="showSite">
                         <ListNonograms
+                            admin={userId === '-MYbrKq-_MgSI5GHUvRh'}
                             usersProgresses={usersProgresses || []}
                             showBoard={showBoard}
                             nonogramList={nonogramList}

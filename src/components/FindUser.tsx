@@ -28,7 +28,7 @@ const FindUser: React.FC<FindUserProps> = ({ userList, nonogramList, showBoard }
             <>
                 <h2 className="notClickable">{seenUser}</h2>
                 <div className="profile">
-                    <div className="nonogramList">
+                    <div className="myNonogramList">
                         {nonogramList.map((row) => {
                             return (
                                 // IDcko neskor zmazem

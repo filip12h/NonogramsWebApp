@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import done from '../pics/done.png';
 import half from '../pics/half.png';
 import empty from '../pics/empty.png';
+import warning from '../pics/warning.gif';
 
 type ListNonogramsProps = {
+    admin: boolean;
     usersProgresses: any[];
     nonogramList: any[];
     showBoard: (id: string) => void;
 };
 
 const ListNonograms: React.FC<ListNonogramsProps> = ({
+    admin,
     showBoard,
     nonogramList,
     usersProgresses,
@@ -178,7 +181,7 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({
                             (filter > 3 &&
                                 usersProgresses[row.id] === row.solution &&
                                 typeof usersProgresses[row.id] !== 'undefined')) &&
-                        row.enable &&
+                        (row.enable || admin) &&
                         row.height * row.width > minSize * 10 &&
                         ((row.usedColors.length > 2 && colorCriteria > 1) ||
                             (row.usedColors.length === 2 && colorCriteria % 2 === 1)) && (
@@ -189,6 +192,9 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({
                                     onClick={() => showBoard(row.id)}
                                     onKeyDown={() => showBoard(row.id)}
                                 >
+                                    {!row.enable && (
+                                        <img id="flag" src={warning} width="40px"></img>
+                                    )}
                                     Author: {row.a}
                                     <br /> {row.width}x{row.height}
                                     <br />
