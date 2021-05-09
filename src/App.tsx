@@ -158,7 +158,6 @@ const App: React.FC = (): JSX.Element => {
                     .once('value', (snapshot) => {
                         setUserAuthId(usr.uid || '');
                         if (snapshot.exists()) {
-                            console.log('welcome back');
                             store.addNotification({
                                 title: 'Successfully logged in',
                                 message: 'Enjoy!',
@@ -172,11 +171,11 @@ const App: React.FC = (): JSX.Element => {
                                 },
                             });
                         } else {
-                            console.log('welcome aboard');
                             const newUser = {
                                 id: usr.uid,
                                 nickname: '',
                                 mail: usr.email,
+                                completed: '',
                             };
                             const ref = userRef.push(newUser);
                             console.log(`my key:${ref.key}`);
@@ -256,7 +255,6 @@ const App: React.FC = (): JSX.Element => {
             userRef.on('value', (snap) => {
                 const users = snap.val();
                 const newUserList: any[] = [];
-                console.log(users);
                 newNonogramList.length = 0;
                 for (const aut in users) {
                     for (const id in nonograms) {
@@ -357,7 +355,6 @@ const App: React.FC = (): JSX.Element => {
                 const newProgresses = usersProgresses;
                 newProgresses[key] = '01';
                 setUsersProgresses(newProgresses);
-                console.log(newProgresses);
             }
         }
 
@@ -383,9 +380,23 @@ const App: React.FC = (): JSX.Element => {
                             const newProgresses = usersProgresses;
                             newProgresses[key] = activeSolution.flat().toString().replace(/,/g, '');
                             setUsersProgresses(newProgresses);
-                            console.log(newProgresses);
                         }
                     }
+
+                    firebase
+                        .database()
+                        .ref(`User/${userId}/completed/`)
+                        .orderByValue()
+                        .equalTo(activeNonogramId)
+                        .once('value', (snapshot) => {
+                            if (!snapshot.exists()) {
+                                firebase
+                                    .database()
+                                    .ref(`User/${userId}`)
+                                    .child('completed')
+                                    .push(activeNonogramId);
+                            }
+                        });
                 }
                 change(correctCounter + 1);
             } else if (
@@ -509,9 +520,7 @@ const App: React.FC = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const showBoard = (id: string) => {
         // const index = nonogramList.map((row) => row[0]).indexOf(id);
-        console.log(id);
         const nonogram = nonogramList.find((x) => x.id === id); // TODO: toto musim zmenit lebo id nezodpoveda riadku
-        console.log(nonogram);
         const nonogramMatrix = stringToSolution(nonogram.solution, nonogram.width, nonogram.height);
         // const counter = 0;
         if (userId) {
@@ -521,7 +530,6 @@ const App: React.FC = (): JSX.Element => {
                 .once('value', (snapshot) => {
                     if (snapshot.exists()) {
                         let counter = 0;
-                        console.log(nonogramMatrix);
                         makeNewProgress(() => {
                             const array: number[][] = [];
                             const sol = nonogramMatrix.flat().toString().replace(/,/g, '');
@@ -539,7 +547,6 @@ const App: React.FC = (): JSX.Element => {
                             return array;
                         });
                     } else {
-                        console.log('alert2haha');
                         makeNewProgress(() => {
                             const array: number[][] = [];
                             for (let i = 0; i < nonogram.height; i += 1) {
@@ -559,7 +566,6 @@ const App: React.FC = (): JSX.Element => {
                     }
                 });
         } else {
-            console.log('alert2haha');
             makeNewProgress(() => {
                 const array: number[][] = [];
                 for (let i = 0; i < nonogram.height; i += 1) {
@@ -637,7 +643,6 @@ const App: React.FC = (): JSX.Element => {
                                         const newProgress = usersProgresses;
                                         delete newProgress[key];
                                         setUsersProgresses(newProgress);
-                                        console.log(newProgress);
                                     }
                                 }
                             }}

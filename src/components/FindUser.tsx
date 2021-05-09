@@ -1,3 +1,9 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { useState } from 'react';
 
 type FindUserProps = {
@@ -7,7 +13,8 @@ type FindUserProps = {
 };
 
 const FindUser: React.FC<FindUserProps> = ({ userList, nonogramList, showBoard }) => {
-    const [seenUser, setSeenUser] = useState('');
+    const [seenUser, setSeenUser] = useState<any>('');
+    const [seenUserAuthId, setSeenUserAuthId] = useState<any>('');
     /*
 <img src={user.picture} alt={user.name} />
                 <input
@@ -24,10 +31,29 @@ const FindUser: React.FC<FindUserProps> = ({ userList, nonogramList, showBoard }
     */
     //    const [inputDescription, setDescription] = useState('');
     if (seenUser) {
+        /* const completedNon = firebase
+            .database()
+            .ref(`User/${seenUser}/completed`)
+            .once('value', (snapshot) => {
+                return snapshot.numChildren();
+            }); */
         return (
             <>
                 <h2 className="notClickable">{seenUser}</h2>
+
                 <div className="profile">
+                    Completed Nonograms:{' '}
+                    {userList.map((row) => {
+                        let elem;
+                        if (row.id === seenUserAuthId) {
+                            let size = 0;
+                            for (elem in row.completed) {
+                                if (row.completed.hasOwnProperty(elem)) size += 1;
+                            }
+                            return size;
+                        }
+                        return '';
+                    })}
                     <div className="myNonogramList">
                         {nonogramList.map((row) => {
                             return (
@@ -69,8 +95,14 @@ const FindUser: React.FC<FindUserProps> = ({ userList, nonogramList, showBoard }
                                 <a
                                     role="link"
                                     tabIndex={0}
-                                    onClick={() => setSeenUser(row.nickname)}
-                                    onKeyDown={() => setSeenUser(row.nickname)}
+                                    onClick={() => {
+                                        setSeenUser(row.nickname);
+                                        setSeenUserAuthId(row.id);
+                                    }}
+                                    onKeyDown={() => {
+                                        setSeenUser(row.nickname);
+                                        setSeenUserAuthId(row.id);
+                                    }}
                                 >
                                     {row.nickname || '?'}
                                 </a>
