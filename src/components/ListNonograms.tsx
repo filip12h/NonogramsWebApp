@@ -131,8 +131,8 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({
                         checked={colorCriteria % 2 === 1}
                         onClick={() => setColorCriteria(3 - (colorCriteria % 2))}
                     />
-                    <label htmlFor="multi">Multicolor</label>
                     <br />
+                    <label htmlFor="multi">Multicolor</label>
                     <input
                         id="multi"
                         type="checkbox"

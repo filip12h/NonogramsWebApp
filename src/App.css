@@ -658,6 +658,13 @@ p {
     }
 }
 
+@media all and (max-width: 1000px) and (min-width: 700px) {
+    .filterContainer {
+        position: relative;
+        right: -100px;
+    }
+}
+
 @media all and (max-width: 1599px) {
     aside .range {
         width: 30%;
