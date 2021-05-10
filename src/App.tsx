@@ -143,7 +143,9 @@ const App: React.FC = (): JSX.Element => {
                         setEmailError(err.message);
                         break;
                     case 'auth/wrong-password':
-                        setPasswordError(err.message);
+                        setPasswordError(
+                            `${err.message} For password reset, contact me via mail: husar22@uniba.sk`,
+                        );
                         break;
                     default:
                         break;
@@ -353,9 +355,17 @@ const App: React.FC = (): JSX.Element => {
         // we need to prevent cases when we cross out empty space correctly. That times the value is not changed
 
         const nonIdKey: any = activeNonogramId;
-        const newProgresses = usersProgresses;
-        newProgresses[nonIdKey] = '01'; // just random constant which is definitely not a correct solution
-        setUsersProgresses(newProgresses);
+        let newProgress: any[] = [];
+        if (usersProgresses === undefined) {
+            newProgress[nonIdKey] = '01';
+            setUsersProgresses(newProgress);
+        } else {
+            newProgress = usersProgresses;
+            console.log(newProgress);
+
+            newProgress[nonIdKey] = '01'; // just random constant which is definitely not a correct solution
+            setUsersProgresses(newProgress);
+        }
 
         if (previousValue !== clicked)
             if (activeSolution[Math.floor(id / nonogramWidth)][id % nonogramWidth] === clicked) {
@@ -502,6 +512,7 @@ const App: React.FC = (): JSX.Element => {
                 dateCreated: dateFormat,
                 enable: false,
                 author: userId || '?',
+                a: nickname,
                 width: w,
                 height: h,
                 solution: s,
