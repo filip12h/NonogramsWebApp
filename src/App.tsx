@@ -244,6 +244,7 @@ const App: React.FC = (): JSX.Element => {
         setUserId('');
         setUserAuthId('');
         firebase.auth().signOut();
+        setUsersProgresses([]);
     };
 
     useEffect(() => {
@@ -350,13 +351,11 @@ const App: React.FC = (): JSX.Element => {
 
     const checkCorrectness = (id: number, previousValue: number, clicked: number) => {
         // we need to prevent cases when we cross out empty space correctly. That times the value is not changed
-        for (const key in usersProgresses) {
-            if (key === activeNonogramId) {
-                const newProgresses = usersProgresses;
-                newProgresses[key] = '01';
-                setUsersProgresses(newProgresses);
-            }
-        }
+
+        const nonIdKey: any = activeNonogramId;
+        const newProgresses = usersProgresses;
+        newProgresses[nonIdKey] = '01'; // just random constant which is definitely not a correct solution
+        setUsersProgresses(newProgresses);
 
         if (previousValue !== clicked)
             if (activeSolution[Math.floor(id / nonogramWidth)][id % nonogramWidth] === clicked) {
