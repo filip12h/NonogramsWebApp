@@ -361,7 +361,6 @@ const App: React.FC = (): JSX.Element => {
             setUsersProgresses(newProgress);
         } else {
             newProgress = usersProgresses;
-            console.log(newProgress);
 
             newProgress[nonIdKey] = '01'; // just random constant which is definitely not a correct solution
             setUsersProgresses(newProgress);
@@ -505,10 +504,11 @@ const App: React.FC = (): JSX.Element => {
                 })
                 .join(''),
         };
-        nonogramRef.push(nonogram);
+        const id = nonogramRef.push(nonogram).key;
         setNonogramList([
             ...nonogramList,
             {
+                id: id,
                 dateCreated: dateFormat,
                 enable: false,
                 author: userId || '?',

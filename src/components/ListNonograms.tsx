@@ -17,6 +17,7 @@ const ListNonograms: React.FC<ListNonogramsProps> = ({
     nonogramList,
     usersProgresses,
 }) => {
+    console.log(nonogramList);
     const [minSize, setMinSize] = useState(0);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [myList, setList] = useState(nonogramList);
